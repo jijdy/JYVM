@@ -10,10 +10,8 @@ import java.util.Stack;
 
 public class Test {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
-        System.out.println(Paths.get("").toAbsolutePath());
-        System.out.println(Arrays.toString(main1()));
 
     }
 
@@ -25,7 +23,7 @@ public class Test {
 
     public static void mains() {
         Stack<Integer> s = new Stack<>();
-        List<Integer> list = new ArrayList<Integer>();
+        List<Integer> list = new ArrayList<>();
         list.add(232);
         list.add(43);
         list.add(435);

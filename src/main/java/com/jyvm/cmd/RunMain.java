@@ -29,8 +29,11 @@ public class RunMain {
         String className = CmdParse.classpath;
         System.out.println(className);
         try {
-            byte[] classDate = cp.readClass(className);
-            System.out.println(Arrays.toString(classDate));
+            byte[] classDate = cp.readClass(CmdParse.classpath);
+//            System.out.println(Arrays.toString(classDate));
+            for(byte b : classDate) {
+                System.out.print(String.format("%02x", b & 0xff) + " ");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

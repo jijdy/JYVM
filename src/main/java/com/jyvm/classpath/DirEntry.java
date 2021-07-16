@@ -17,7 +17,9 @@ public class DirEntry implements Entry{
     @Override
     public byte[] readClass(String className) throws IOException {
         //通过绝对路径加class文件的名称拿到文件位置并进行读取
-        return Files.readAllBytes(Paths.get(absolutePath + File.separator + className));
+        Path p = Paths.get(className).toAbsolutePath();
+
+        return Files.readAllBytes(absolutePath.resolve(p));
     }
 
     @Override

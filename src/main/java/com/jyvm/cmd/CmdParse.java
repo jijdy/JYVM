@@ -1,5 +1,7 @@
 package com.jyvm.cmd;
 
+import java.util.List;
+
 public class CmdParse {
 
     //版本号信息
@@ -8,6 +10,7 @@ public class CmdParse {
     public static  boolean version ;
     public static  String Xjre;
     public static  String classpath;
+    public static List<String> appArgs;
 
 
     public static void parse(String[] args) {
@@ -22,16 +25,19 @@ public class CmdParse {
                     return;
                 }
                 if (args[i].equals("-Xjre")) {
-                    VMFlag = true;
                     i++;
                     Xjre = args[i];
                 }
                 if (args[i].equals("-cp") || args[i].equals("-classpath")) {
                     VMFlag = true;
                     i++;
-                    classpath = args[i].replace(".", "/");
+                    classpath = args[i];
+                }
+                if(VMFlag) {
+                    appArgs.add(args[i]);
                 }
             }
+            if (appArgs.size()>=1) VMFlag = true;
         } catch (Exception e) {
             System.out.println("输入的参数有误!");
         }

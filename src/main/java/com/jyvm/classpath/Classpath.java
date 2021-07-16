@@ -25,15 +25,15 @@ public class Classpath {
         }
 
         // jre\lib\*下的所有jar包进行查找
-        bootClasspath = new WildcardEntry(Paths.get(xjre, "lib") + File.pathSeparator + "*");
+        bootClasspath = new WildcardEntry(Paths.get(xjre, "lib") + File.separator + "*");
 
-        //对jre\lib\ext\*下的所有jar包进行查找
-        extensionClasspath = new WildcardEntry(Paths.get(xjre, "lib", "ext") + File.pathSeparator + "*");
+        // 对jre\lib\ext\*下的所有jar包进行查找
+        extensionClasspath = new WildcardEntry(Paths.get(xjre, "lib", "ext") + File.separator + "*");
     }
 
     private void parseUser(String classpath) {
         if (classpath == null) {
-            classpath = ".";
+            classpath = "";
         }
         userClasspath = Entry.createEntry(classpath);
     }
@@ -42,12 +42,12 @@ public class Classpath {
         classpath = classpath + ".class";
 
         try {
-            return bootClasspath.readClass(classpath);
+            if(bootClasspath.readClass(classpath) != null) return bootClasspath.readClass(classpath);
         } catch (IOException e) {
             //
         }
         try {
-            return extensionClasspath.readClass(classpath);
+            if(extensionClasspath.readClass(classpath) != null) return extensionClasspath.readClass(classpath);
         } catch (IOException e) {
             //
         }
