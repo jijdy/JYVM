@@ -14,11 +14,20 @@ public class ClassReader {
     }
 
     public int readNextU1() {
-        return ByteUtil.byteToInteger(read(1),0,1);
+        return ByteUtil.byteToInteger(read(2),0,2);
     }
 
     public int readNextU2Int() {
-        return ByteUtil.byteToInteger(read(2),0,2);
+        return ByteUtil.byteToInteger(read(4),0,4);
+    }
+
+    public int[] readU2Ints() {
+        int length = this.readNextU2Int();
+        int[] U2s = new int[length];
+        for (int i = 0; i < length; i ++) {
+            U2s[i] = this.readNextU2Int();
+        }
+        return U2s;
     }
 
     public float raedNextU2Float() {
@@ -30,7 +39,7 @@ public class ClassReader {
     }
 
     public long readNextU4Long() {
-        return ByteUtil.byteToBigInteger(read(4),0,4);
+        return ByteUtil.byteToBigInteger(read(8),0,8);
     }
 
     //值定读取出长度的字节大小
@@ -41,4 +50,11 @@ public class ClassReader {
         return bytes1;
     }
 
+    public byte[] getBytes() {
+        return bytes;
+    }
+
+    public int getIndex() {
+        return index;
+    }
 }

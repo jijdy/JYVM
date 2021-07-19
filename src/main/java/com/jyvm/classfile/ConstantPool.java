@@ -1,14 +1,16 @@
-package com.jyvm.classfile.constantpool;
+package com.jyvm.classfile;
 
 import com.jyvm.classfile.ClassReader;
+import com.jyvm.classfile.constantpool.ConstantInfo;
 import com.jyvm.classfile.constantpool.implement.*;
 
 public class ConstantPool {
 
     private final ConstantInfo[] constantInfos;
+    private int size;
 
     public ConstantPool(ClassReader classReader) {
-        int size = classReader.readNextU2Int();
+        this.size = classReader.readNextU2Int();
         constantInfos = new ConstantInfo[size];
         for (int i = 1; i < size; i ++) {
             constantInfos[i] = ConstantInfo.readerNewConstantInfo(classReader,this);
@@ -34,5 +36,8 @@ public class ConstantPool {
         return constantNameAndType.nameValue() + " " + constantNameAndType.descValue();
     }
 
+    public int getSize() {
+        return size;
+    }
 
 }

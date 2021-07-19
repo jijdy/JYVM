@@ -15,8 +15,14 @@ public class Test1 {
 
     @Test
     public void test2() {
-        byte[] bytes = {0x1,0x0,0x0,0x0,0x0,0x0,0x0,0x0};
-        System.out.println(byteToBigInteger(bytes,0,8));
+        byte[] bytes = {0x0,0x1,0x0,0x1,0x0,0x0,0x0,0x1};
+        ClassReader c = new ClassReader(bytes);
+        System.out.println((c.readNextU4Long()));
+        System.out.println(Arrays.toString(c.getBytes()));
+        System.out.println(c.getIndex());
+//        System.out.println((c.readNextU4Long()));
+        System.out.println(Arrays.toString(c.getBytes()));
+        System.out.println(c.getIndex());
     }
 
     public static int getInt(byte[] arr, int index) {

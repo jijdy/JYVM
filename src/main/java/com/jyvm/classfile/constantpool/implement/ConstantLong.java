@@ -3,6 +3,9 @@ package com.jyvm.classfile.constantpool.implement;
 import com.jyvm.classfile.ClassReader;
 import com.jyvm.classfile.constantpool.ConstantInfo;
 
+/*
+* 存储长整型数据
+* */
 public class ConstantLong implements ConstantInfo {
 
     private long value;

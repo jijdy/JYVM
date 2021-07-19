@@ -3,6 +3,9 @@ package com.jyvm.classfile.constantpool.implement;
 import com.jyvm.classfile.ClassReader;
 import com.jyvm.classfile.constantpool.ConstantInfo;
 
+/*
+* 存储float浮点类型数据
+* */
 public class ConstantFloat implements ConstantInfo {
     private float value;
 

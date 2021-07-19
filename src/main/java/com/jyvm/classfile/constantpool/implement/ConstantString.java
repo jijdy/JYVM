@@ -2,8 +2,11 @@ package com.jyvm.classfile.constantpool.implement;
 
 import com.jyvm.classfile.ClassReader;
 import com.jyvm.classfile.constantpool.ConstantInfo;
-import com.jyvm.classfile.constantpool.ConstantPool;
+import com.jyvm.classfile.ConstantPool;
 
+/*
+* 存储一个索引指向一个utf8字符串表示String类型的数据
+* */
 public class ConstantString implements ConstantInfo {
 
     private ConstantPool constantPool;

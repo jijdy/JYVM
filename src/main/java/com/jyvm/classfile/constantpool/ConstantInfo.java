@@ -1,6 +1,7 @@
 package com.jyvm.classfile.constantpool;
 
 import com.jyvm.classfile.ClassReader;
+import com.jyvm.classfile.ConstantPool;
 import com.jyvm.classfile.constantpool.implement.*;
 
 public interface ConstantInfo {
@@ -27,7 +28,7 @@ public interface ConstantInfo {
     int tag();
 
     //对接收常量池的信息进行封装和分层，进行存储之后再返回
-    static ConstantInfo readerNewConstantInfo(ClassReader classReader,ConstantPool constantPool) {
+    static ConstantInfo readerNewConstantInfo(ClassReader classReader, ConstantPool constantPool) {
         int tag = classReader.readNextU1();
         ConstantInfo constantInfo = newConstantInfo(tag, constantPool);
         constantInfo.readInfo(classReader);
@@ -55,7 +56,7 @@ public interface ConstantInfo {
              case CONSTANT_METHODREF:
                return new ConstantMethodRef(constantPool);
              case CONSTANT_INTERFACE:
-               return new ConstantInterface(constantPool);
+               return new ConstantInterfaceMethod(constantPool);
              case CONSTANT_NAMEANDTYPE:
                return new ConstantNameAndType(constantPool);
              case CONSTANT_METHODTYPE:

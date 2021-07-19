@@ -2,14 +2,17 @@ package com.jyvm.classfile.constantpool.implement;
 
 import com.jyvm.classfile.ClassReader;
 import com.jyvm.classfile.constantpool.ConstantInfo;
-import com.jyvm.classfile.constantpool.ConstantPool;
+import com.jyvm.classfile.ConstantPool;
 
-public class ConstantInterface implements ConstantInfo {
+/*
+* 表示接口方法，存储类名的索引及名称和描述符索引
+* */
+public class ConstantInterfaceMethod implements ConstantInfo {
     private int classIndex;
     private int nameIndex;
     private ConstantPool constantPool;
 
-    public ConstantInterface(ConstantPool constantPool) {
+    public ConstantInterfaceMethod(ConstantPool constantPool) {
         this.constantPool = constantPool;
     }
 

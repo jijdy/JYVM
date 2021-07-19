@@ -50,7 +50,7 @@ public class Classpath {
         } catch (IOException e) {
             //
         }
-            return userClasspath.readClass(classpath);
+        return userClasspath.readClass(classpath);
     }
 
 

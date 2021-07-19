@@ -18,7 +18,7 @@ public class DirEntry implements Entry{
         //通过绝对路径加class文件的名称拿到文件位置并进行读取
         Path p = Paths.get(className).toAbsolutePath();
 
-        return Files.readAllBytes(absolutePath.resolve(p));
+        return Files.readAllBytes(p);
     }
 
     @Override

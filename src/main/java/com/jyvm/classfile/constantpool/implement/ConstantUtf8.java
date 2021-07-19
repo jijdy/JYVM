@@ -3,8 +3,10 @@ package com.jyvm.classfile.constantpool.implement;
 import com.jyvm.classfile.ClassReader;
 import com.jyvm.classfile.constantpool.ConstantInfo;
 
-import java.util.Random;
 
+/*
+* 存储mutf-8编码的字符串
+* */
 public class ConstantUtf8 implements ConstantInfo {
 
     private String value;

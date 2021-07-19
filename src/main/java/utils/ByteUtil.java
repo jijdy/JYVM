@@ -1,5 +1,7 @@
 package utils;
 
+import org.checkerframework.checker.signedness.qual.Unsigned;
+
 public  class ByteUtil {
 
 //    public ByteUtil(byte[] read, int first, int last) {
@@ -13,9 +15,9 @@ public  class ByteUtil {
     public static int byteToInteger(byte[] bytes, int first, int last) {
         int re = 0;
         int index = last - first;
-        if (index > 4) return 0;
+        if (index > 8) return 0;
         while(first < last) {
-            re |=  (0x000000ff & bytes[first++]) << 4*(index--);
+            re |=  (0x000000ff & bytes[first++]) << (4*(index--) - 4);
         }
         return re;
     }
@@ -23,9 +25,9 @@ public  class ByteUtil {
     public static long byteToBigInteger(byte[] bytes, int first, int last) {
         long re = 0;
         int index = last - first;
-        if (index > 8) return 0;
+        if (index > 16) return 0;
         while(first < last) {
-            re |= (long) (0x000000ff & bytes[first++]) << 4*(index--);
+            re |= (long) (0x000000ff & bytes[first++]) << (4*(index--) - 4);
         }
         return re;
     }
