@@ -5,7 +5,7 @@ import com.jyvm.classfile.attribute.AttributeInfo;
 import com.sun.org.apache.bcel.internal.classfile.LineNumber;
 
 /*
-* 用于存放方法的行数信息,为调试信息
+* 用于存放方法的行数信息,可以当做为调试信息
 * */
 public class LineNumberTableAttribute implements AttributeInfo {
 

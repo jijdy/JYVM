@@ -9,7 +9,7 @@ import com.jyvm.classfile.attribute.AttributeInfo;
 * */
 public class SourceFileAttribute implements AttributeInfo {
 
-    private ConstantPool constantPool;
+    ConstantPool constantPool;
     private int sourceIndex;
 
     @Override

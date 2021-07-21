@@ -33,11 +33,11 @@ public class CmdParse {
                     i++;
                     classpath = args[i];
                 }
-                if(VMFlag) {
-                    appArgs.add(args[i]);
-                }
+//                if(VMFlag) {
+//                    appArgs.add(args[i]);
+//                }
             }
-            if (appArgs.size()>=1) VMFlag = true;
+//            if (appArgs.size()>=1) VMFlag = true;
         } catch (Exception e) {
             System.out.println("输入的参数有误!");
         }

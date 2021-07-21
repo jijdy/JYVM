@@ -36,4 +36,8 @@ public class ConstantMethodRef implements ConstantInfo {
         return constantPool.getName(nameIndex);
     }
 
+    @Override
+    public String toString() {
+        return classValue();
+    }
 }

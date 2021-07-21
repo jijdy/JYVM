@@ -9,7 +9,7 @@ public class FieldOrMethodInfo {
     private final int accessFlag;
     private final int nameIndex;
     private final int descIndex;
-    private AttributeInfo[] attributes;
+    private final AttributeInfo[] attributes;
     private ConstantPool constantPool;
 
     public FieldOrMethodInfo(ClassReader reader, ConstantPool constantPool) {
@@ -17,13 +17,9 @@ public class FieldOrMethodInfo {
         this.accessFlag = reader.readNextU2Int();
         this.nameIndex = reader.readNextU2Int();
         this.descIndex = reader.readNextU2Int();
-        readAttribute(reader);
+        this.attributes = AttributeInfo.readAttributes(reader, constantPool);
     }
 
-    public void readAttribute(ClassReader reader) {
-        //read
-
-    }
 
     public int getAccessFlag() {
         return accessFlag;
@@ -37,4 +33,7 @@ public class FieldOrMethodInfo {
         return constantPool.getUtf8(descIndex);
     }
 
+    public AttributeInfo[] getAttributes() {
+        return attributes;
+    }
 }

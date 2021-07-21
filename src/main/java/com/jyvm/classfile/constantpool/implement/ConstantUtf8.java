@@ -14,7 +14,7 @@ public class ConstantUtf8 implements ConstantInfo {
     @Override
     public void readInfo(ClassReader reader) {
         int size = reader.readNextU2Int();
-        byte[] bytes = new byte[size];
+        byte[] bytes = reader.read(size);
         value = new String(bytes);
     }
 
@@ -25,5 +25,10 @@ public class ConstantUtf8 implements ConstantInfo {
 
     public String value() {
         return this.value;
+    }
+
+    @Override
+    public String toString() {
+        return value;
     }
 }

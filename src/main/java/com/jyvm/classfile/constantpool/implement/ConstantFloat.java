@@ -11,7 +11,7 @@ public class ConstantFloat implements ConstantInfo {
 
     @Override
     public void readInfo(ClassReader reader) {
-        value = reader.raedNextU2Float();
+        value = reader.raedNextU4Float();
     }
 
     @Override

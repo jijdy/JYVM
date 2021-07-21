@@ -8,6 +8,13 @@ import java.util.Arrays;
 public class Test1 {
 
     @Test
+    public void test3() {
+        long x = 0x000000ff;
+        x = x << 4;
+        System.out.println(x);
+    }
+
+    @Test
     public void test1() {
         byte[] bytes = {0x1,0xd,3,4,5,6,6,75,7,3,2};
         ClassReader classReader = new ClassReader(bytes);

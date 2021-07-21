@@ -20,14 +20,14 @@ public interface AttributeInfo {
     static AttributeInfo readAttribute(ClassReader reader, ConstantPool constantPool) {
         int attrIndex = reader.readNextU2Int();
         String attrName = constantPool.getUtf8(attrIndex);
-        long attrLen = reader.readNextU4Long();
+        int attrLen = (int) reader.readNextU4Long();
         AttributeInfo attribute = newAttribute(attrName, attrLen, constantPool);
         attribute.readInfo(reader);
         return attribute;
     }
 
     //选择创建对象的具体类型，若未定义，则new一个为解析的自定义属性
-    static AttributeInfo newAttribute(String name, long attrLen, ConstantPool constantPool) {
+    static AttributeInfo newAttribute(String name, int attrLen, ConstantPool constantPool) {
         switch (name) {
             case "BootstrapMethods":
                 return new BootstrapMethodsAttribute();

@@ -60,6 +60,7 @@ public class ClassFile {
             case 50:
             case 51:
             case 52:
+            case 58:
             if (minorVersion == 0) {
                 return;
             }
@@ -88,7 +89,7 @@ public class ClassFile {
     public String[] getInterfaceName() {
         String[] s = new String[interfaceIndex.length];
         for (int i = 0; i < interfaceIndex.length; i ++) {
-            s[i] = constantPool.getUtf8(interfaceIndex[i]);
+            s[i] = constantPool.getClass(interfaceIndex[i]);
         }
         return s;
     }
@@ -99,11 +100,11 @@ public class ClassFile {
     }
 
     public String className() {
-        return constantPool.getUtf8(classIndex);
+        return constantPool.getClass(classIndex);
     }
 
     public String fatherName() {
-        return constantPool.getUtf8(fatherIndex);
+        return constantPool.getClass(fatherIndex);
     }
 
     public ConstantPool constant() {
@@ -122,5 +123,9 @@ public class ClassFile {
 
     public ConstantPool constantPool() {
         return constantPool;
+    }
+
+    public AttributeInfo[] getAttributeInfos() {
+        return attributeInfos;
     }
 }

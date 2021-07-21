@@ -12,7 +12,7 @@ public class ConstantLong implements ConstantInfo {
 
     @Override
     public void readInfo(ClassReader reader) {
-        value = reader.readNextU4Long();
+        value = reader.readNextLong();
     }
 
     @Override

@@ -17,8 +17,8 @@ public interface ConstantInfo {
     int CONSTANT_METHODREF = 10;
     int CONSTANT_INTERFACE = 11;
     int CONSTANT_NAMEANDTYPE = 12;
-    int CONSTANT_METHODTYPE = 16;
     int CONSTANT_METHODHANDLE = 15;
+    int CONSTANT_METHODTYPE = 16;
     int CONSTANT_INVOKEDYNAMIC = 18;//未实现
 
     //读取数据并进行存储
@@ -63,6 +63,8 @@ public interface ConstantInfo {
                return new ConstantMethodType();
              case CONSTANT_METHODHANDLE:
                return new ConstantMethodHandle();
+             case CONSTANT_INVOKEDYNAMIC:
+                return new ConstantInvokeDynamic();
             default:
                 throw new ClassFormatError("Tag Error!");
         }

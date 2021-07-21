@@ -15,20 +15,25 @@ public class CodeAttribute implements AttributeInfo {
     private int maxLocals;
     private byte[] bytes;
     private ExceptionTable[] exceptionTables;
-
+    //属性数组
+    private AttributeInfo[] attributeInfos;
 
     @Override
     public void readInfo(ClassReader reader) {
         maxStack = reader.readNextU2Int();
         maxLocals = reader.readNextU2Int();
         int codeLength = (int) reader.readNextU4Long();
-        bytes = new byte[codeLength];
         bytes = reader.read(codeLength);
         exceptionTables = ExceptionTable.readException(reader);
+        attributeInfos = AttributeInfo.readAttributes(reader, constantPool);
     }
 
     public CodeAttribute(ConstantPool constantPool) {
         this.constantPool = constantPool;
+    }
+
+    public AttributeInfo[] getAttributeInfos() {
+        return attributeInfos;
     }
 
     static class ExceptionTable {

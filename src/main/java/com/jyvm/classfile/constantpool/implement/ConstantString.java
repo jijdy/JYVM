@@ -26,7 +26,8 @@ public class ConstantString implements ConstantInfo {
         return ConstantInfo.CONSTANT_STRING;
     }
 
-    public String value() {
+    @Override
+    public String toString() {
         return constantPool.getUtf8(sIndex);
     }
 }

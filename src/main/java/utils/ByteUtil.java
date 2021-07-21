@@ -17,7 +17,7 @@ public  class ByteUtil {
         int index = last - first;
         if (index > 8) return 0;
         while(first < last) {
-            re |=  (0x000000ff & bytes[first++]) << (4*(index--) - 4);
+            re +=  (0x000000ff & bytes[first++]) << (8*(index--) - 8);
         }
         return re;
     }
@@ -27,7 +27,7 @@ public  class ByteUtil {
         int index = last - first;
         if (index > 16) return 0;
         while(first < last) {
-            re |= (long) (0x000000ff & bytes[first++]) << (4*(index--) - 4);
+            re += (long) (0x000000ff & bytes[first++]) << (8*(index--) - 8);
         }
         return re;
     }
