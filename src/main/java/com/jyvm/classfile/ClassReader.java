@@ -1,8 +1,6 @@
 package com.jyvm.classfile;
 
-import utils.ByteUtil;
-
-import java.math.BigInteger;
+import com.jyvm.utils.ByteUtil;
 
 //使用byte[]字节流来读取class文件中的数据并进行解析
 public class ClassReader {
