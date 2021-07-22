@@ -2,6 +2,9 @@ import com.jyvm.classfile.ClassFile;
 import com.jyvm.classfile.FieldOrMethodInfo;
 import com.jyvm.classpath.Classpath;
 import com.jyvm.cmd.CmdParse;
+import com.jyvm.runtimeDate.Frame;
+import com.jyvm.runtimeDate.LocalVars;
+import com.jyvm.runtimeDate.OperandStack;
 
 import java.util.Arrays;
 
@@ -24,6 +27,26 @@ public class Main {
     }
 
     private static void startVM() {
+        Frame frame = new Frame(100,100);
+        test_localVars(frame.getLocalVars());
+        test_operandStack(frame.getOperandStack());
+    }
+
+    private static void test_localVars(LocalVars vars){
+        vars.setInt(0,100);
+        vars.setInt(1,-100);
+        System.out.println(vars.getInt(0));
+        System.out.println(vars.getInt(1));
+    }
+
+    private static void test_operandStack(OperandStack ops){
+        ops.pushInt(100);
+        ops.pushInt(-100);
+        ops.pushRef(null);
+        System.out.println(ops.popRef());
+        System.out.println(ops.popInt());
+    }
+    private static void startVM1() {
         System.out.println("虚拟机运行开始----");
         Classpath cp = new Classpath(CmdParse.Xjre,CmdParse.classpath);
 

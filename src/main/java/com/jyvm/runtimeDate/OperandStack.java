@@ -6,13 +6,12 @@ import java.util.logging.Logger;
   操作数栈存储,size用于存储栈顶元素位置，
 * */
 public class OperandStack {
-    int size;
+    int size = 0;
     Slot[] slots;
 
     public OperandStack(int maxStack) {
         if (maxStack > 0) {
-            this.size = maxStack;
-            slots = new Slot[size];
+            slots = new Slot[maxStack];
         }
         for (int i = 0; i < maxStack; i ++) {
             slots[i] = new Slot();
@@ -28,7 +27,8 @@ public class OperandStack {
     }
 
     public void pushFloat(float val) {
-        this.slots[size++].num = Float.floatToIntBits(val);
+        this.slots[size].num = Float.floatToIntBits(val);
+        size++;
     }
 
     public float popFloat() {
