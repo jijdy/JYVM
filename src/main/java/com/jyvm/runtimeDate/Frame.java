@@ -6,6 +6,10 @@ package com.jyvm.runtimeDate;
 * */
 public class Frame {
     Frame lower;
+    LocalVars localVars;
+    OperandStack operandStack;
+    Thread thread; //以便查找pc值
+    int nextPC;
 
     public LocalVars getLocalVars() {
         return localVars;
@@ -14,11 +18,6 @@ public class Frame {
     public OperandStack getOperandStack() {
         return operandStack;
     }
-
-    LocalVars localVars;
-    OperandStack operandStack;
-    Thread thread; //以便查找pc值
-    int nextPC;
 
     public Frame( int maxLocals, int maxStack) {
         this.localVars = new LocalVars(maxLocals);

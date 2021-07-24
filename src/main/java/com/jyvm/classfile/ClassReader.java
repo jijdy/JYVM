@@ -14,11 +14,11 @@ public class ClassReader {
     }
 
     public int readNextU1() {
-        return ByteUtil.byteToInteger(read(1),0,1);
+        return ByteUtil.bytesToInteger(read(1),0,1);
     }
 
     public int readNextU2Int() {
-        return ByteUtil.byteToInteger(read(2),0,2);
+        return ByteUtil.bytesToInteger(read(2),0,2);
     }
 
     public int[] readU2Ints() {

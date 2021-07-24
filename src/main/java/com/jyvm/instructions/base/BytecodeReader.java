@@ -1,5 +1,8 @@
 package com.jyvm.instructions.base;
 
+/*
+* 读取字节数据
+* */
 public class BytecodeReader {
     byte[] codes;
     int pc;

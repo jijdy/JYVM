@@ -16,7 +16,7 @@ public class LocalVars {
         }
     }
 
-    public void setInt(int index, int val) {
+    public void setInt( int val, int index) {
         this.localVars[index].num = val;
     }
 
@@ -24,7 +24,7 @@ public class LocalVars {
         return this.localVars[index].num;
     }
 
-    public void setFloat(int index, float val) {
+    public void setFloat(float val, int index) {
         int Int = Float.floatToIntBits(val);
         setInt(index, Int);
     }
@@ -33,7 +33,7 @@ public class LocalVars {
         return Float.intBitsToFloat(getInt(index));
     }
 
-    public void setLong(int index, long val) {
+    public void setLong( long val, int index) {
 //        setInt(index, (int) (val << 32));
       setInt(index, (int) val);  //32位操作系统中int为32位，
         setInt(index + 1, (int) (val >> 32));
@@ -44,15 +44,15 @@ public class LocalVars {
         return ((long) getInt(index + 1) << 32) | (getInt(index) & 0x0ffffffffL);
     }
 
-    public void setDouble(int index, double val) {
-        setLong(index, Double.doubleToLongBits(val));
+    public void setDouble(double val, int index) {
+        setLong(Double.doubleToLongBits(val), index);
     }
 
     public double getDouble(int index) {
         return  Double.longBitsToDouble(getLong(index));
     }
 
-    public void setRef(int index, Object o) {
+    public void setRef(Object o, int index) {
         localVars[index].ref = o;
     }
 

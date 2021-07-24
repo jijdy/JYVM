@@ -2,6 +2,9 @@ package com.jyvm.instructions.base;
 
 import com.jyvm.runtimeDate.Frame;
 
+/*
+* 表示跳转指令的类
+* */
 public class BranchInstruction implements Instruction{
 
     int offset; //跳转偏移量

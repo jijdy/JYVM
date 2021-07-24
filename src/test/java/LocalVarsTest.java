@@ -1,22 +1,25 @@
 import com.jyvm.runtimeDate.LocalVars;
 import org.junit.Test;
 
+import javax.swing.*;
+
 public class LocalVarsTest {
 
     @Test
     public void test() {
         long x = 548621648555L;
         LocalVars localVars = new LocalVars(6);
-        localVars.setLong(0,x);
         System.out.println(localVars.getLong(0));
         double y = 1648555.343523;
-        localVars.setDouble(2, y);
         System.out.println(localVars.getDouble(2));
         float z = 23435.234f;
-        localVars.setFloat(4,z);
         System.out.println(localVars.getFloat(4));
     }
 
+    @Test
+    public void test3() {
+        System.out.println(0xfff0 & 0x00f0);
+    }
 
     @Test
     public void test1() {

@@ -65,4 +65,11 @@ public class OperandStack {
         }
     }
 
+    public void pushSlot(Slot slot) {
+        this.slots[size++] = slot;
+    }
+
+    public Slot popSlot() {
+        return this.slots[--size];
+    }
 }
