@@ -15,4 +15,16 @@ public class Thread {
     public Thread() {
         this.stack = new Stack(1024);
     }
+
+    public Frame popStack() {
+        return this.stack.pop();
+    }
+
+    public void pushStack(Frame frame) {
+        this.stack.push(frame);
+    }
+
+    public Frame frame(int maxLocals, int maxStack) {
+        return new Frame(this, maxStack, maxStack);
+    }
 }

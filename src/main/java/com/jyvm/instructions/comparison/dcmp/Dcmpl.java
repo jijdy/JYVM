@@ -27,6 +27,6 @@ public class Dcmpl extends NoOperandsInstruction {
             stack.pushInt(0);
             return;
         }
-        stack.pushInt(-1); //无法比较，返回-1，即大于
+        stack.pushInt(-1); //无法比较，返回-1，即小于
     }
 }

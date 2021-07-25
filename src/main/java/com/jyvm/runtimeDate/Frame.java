@@ -23,6 +23,11 @@ public class Frame {
         this.localVars = new LocalVars(maxLocals);
         this.operandStack = new OperandStack(maxStack);
     }
+    public Frame( Thread thread, int maxLocals, int maxStack) {
+        this.thread = thread;
+        this.localVars = new LocalVars(maxLocals);
+        this.operandStack = new OperandStack(maxStack);
+    }
 //    public Frame(Thread thread, int maxLocals, int maxStack) {
 //        this.thread = thread;
 //        this.localVars = new LocalVars(maxLocals);
@@ -35,5 +40,9 @@ public class Frame {
 
     public void setNextPC(int nextPC) {
         this.nextPC = nextPC;
+    }
+
+    public int nextPC() {
+        return this.nextPC;
     }
 }

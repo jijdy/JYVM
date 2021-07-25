@@ -1,6 +1,7 @@
 package com.jyvm.classfile;
 
 import com.jyvm.classfile.attribute.AttributeInfo;
+import com.jyvm.classfile.attribute.Implements.CodeAttribute;
 
 /*
 * 字段或方法表
@@ -35,5 +36,15 @@ public class FieldOrMethodInfo {
 
     public AttributeInfo[] getAttributes() {
         return attributes;
+    }
+
+    //拿到code属性表并完成加载
+    public CodeAttribute getCodeAttribute() {
+        for (AttributeInfo attribute : this.attributes) {
+            if (attribute instanceof CodeAttribute) {
+                return (CodeAttribute) attribute;
+            }
+        }
+        return null;
     }
 }

@@ -10,7 +10,7 @@ import com.jyvm.runtimeDate.Frame;
 * */
 public class Iinc implements Instruction {
 
-    int index;
+    public int index;
     int constVal;
 
     @Override

@@ -1,7 +1,7 @@
 import com.jyvm.runtimeDate.LocalVars;
 import org.junit.Test;
 
-import javax.swing.*;
+import java.util.Arrays;
 
 public class LocalVarsTest {
 
@@ -29,5 +29,8 @@ public class LocalVarsTest {
         int z = 23;
         System.out.println(z--);
         System.out.println(z);
+        String s = "dddd";
+        String[] chars = s.split("");
+        String st = Arrays.toString(chars);
     }
 }

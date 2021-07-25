@@ -39,7 +39,7 @@ public class BytecodeReader {
         return ints;
     }
 
-    //用于lookuswitch和tableswitch
+    //用于lookuswitch和tableswitch,保证跳过字节使得pc指针为4的倍数
     public void skipPadding() {
         while (this.pc % 4 != 0) {
             this.readByte();

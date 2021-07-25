@@ -18,6 +18,10 @@ public class OperandStack {
         }
     }
 
+    public Slot[] getSlots() {
+        return this.slots;
+    }
+
     public void pushInt(int val) {
         this.slots[size++].num = val;
     }

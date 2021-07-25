@@ -11,6 +11,7 @@ public class Stack {
         this.maxSize = maxSize;
     }
 
+    //栈帧入栈
     public void push(Frame farme) {
         if (this.size >= maxSize) {
             throw new StackOverflowError("栈容量不足");
@@ -22,6 +23,7 @@ public class Stack {
         this.size ++;
     }
 
+    //使得栈帧出栈
     public Frame pop() {
         if (this.top == null) {
             throw new EmptyStackException();

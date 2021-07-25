@@ -25,4 +25,8 @@ public class BranchInstruction implements Instruction{
         int nextPC = pc + offset;
         frame.setNextPC(nextPC);
     }
+
+    public int offset() {
+        return this.offset;
+    }
 }
