@@ -1,6 +1,5 @@
 package com.jyvm.runtimeDate;
 
-import java.util.logging.Logger;
 
 /*
   操作数栈存储,size用于存储栈顶元素位置，

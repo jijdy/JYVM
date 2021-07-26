@@ -64,5 +64,7 @@
 * **loads**：加载操作，根据特点索引从局部变量表中获得特点的数据并存入到操作数栈中
 * **stores**：存储操作，和load操作相反，从操作数栈的栈顶或得特点的元素并根据特点的索引放入到局部变量表中，**long和double占用两个索引**
 * **stack**：栈操作指令，直接对操作数栈进行操作，有add,sub,div,ml,shift,negate等对栈的直接操作
-* 
+* **math**：
+* **conversion**：
+* **comparison**：
 

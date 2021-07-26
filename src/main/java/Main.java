@@ -2,10 +2,13 @@ import com.jyvm.classfile.ClassFile;
 import com.jyvm.classfile.FieldOrMethodInfo;
 import com.jyvm.classpath.Classpath;
 import com.jyvm.cmd.CmdParse;
+import com.jyvm.interpretor.Interpretor;
 import com.jyvm.runtimeDate.Frame;
 import com.jyvm.runtimeDate.LocalVars;
 import com.jyvm.runtimeDate.OperandStack;
 
+import java.io.IOException;
+import java.lang.instrument.ClassDefinition;
 import java.util.Arrays;
 
 public class Main {
@@ -27,11 +30,40 @@ public class Main {
     }
 
     private static void startVM() {
-        Frame frame = new Frame(100,100);
-        test_localVars(frame.getLocalVars());
-        test_operandStack(frame.getOperandStack());
+//        Frame frame = new Frame(100,100);
+//        test_localVars(frame.getLocalVars());
+//        test_operandStack(frame.getOperandStack());
+        Classpath cp = new Classpath(CmdParse.Xjre,CmdParse.classpath);
+        System.out.println(CmdParse.classpath + "  " + cp);
+        ClassFile cf = Main.readClass(CmdParse.classpath, cp);
+        FieldOrMethodInfo main = getMainMethod(cf);
+        if (main == null) {
+            System.out.println("main方法为空！");
+            return;
+        }
+        new Interpretor(main);
     }
 
+    public static ClassFile readClass(String classPath, Classpath cp) {
+        try {
+            byte[] classDate = cp.readClass(CmdParse.classpath);
+            return new ClassFile(classDate);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static FieldOrMethodInfo getMainMethod(ClassFile classFile) {
+        if (classFile == null) return null;
+        FieldOrMethodInfo[] methodInfos = classFile.methods();
+        for (FieldOrMethodInfo info : methodInfos) {
+            if (info.getName().equals("main") && "([Ljava/lang/String;)V".equals(info.getDesc())) {
+                return info;
+            }
+        }
+        return null;
+    }
     private static void test_localVars(LocalVars vars){
         vars.setInt(0,100);
         vars.setInt(1,-100);

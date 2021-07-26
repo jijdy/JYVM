@@ -19,6 +19,7 @@ public class LocalVars {
     public Slot[] getLocalVars() {
         return this.localVars;
     }
+
     public void setInt( int val, int index) {
         this.localVars[index].num = val;
     }

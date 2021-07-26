@@ -8,11 +8,13 @@ import com.jyvm.instructions.base.Instruction;
 import com.jyvm.runtimeDate.Frame;
 import com.jyvm.runtimeDate.Thread;
 
-public class interpretor {
+import java.util.Arrays;
+
+public class Interpretor {
 
     CodeAttribute codeAttribute;
 
-    interpretor(FieldOrMethodInfo info) {
+    public Interpretor(FieldOrMethodInfo info) {
         this.codeAttribute = info.getCodeAttribute();
         int maxLocals = codeAttribute.getMaxLocals();
         int maxStack = codeAttribute.getMaxStack();
@@ -20,7 +22,7 @@ public class interpretor {
         Thread thread = new Thread();
         Frame frame = thread.frame(maxLocals, maxStack);
         thread.pushStack(frame);  //将栈帧推入虚拟机栈中
-
+        loop(thread,codeByte);
     }
 
     void loop(Thread thread, byte[] codeByte) {
@@ -47,10 +49,9 @@ public class interpretor {
 
             System.out.println("指令为：" + byteToHexString(new byte[]{option}) + "------>" +
                     instruction.getClass().getSimpleName() + "-----局部变量表为---->" +
-                    JSON.toJSONString(frame.getLocalVars().getLocalVars()) + "----操作数栈----->"+
-                    JSON.toJSONString(frame.getOperandStack().getSlots())
+                    Arrays.toString(frame.getLocalVars().getLocalVars()) + "----操作数栈----->"+
+                    Arrays.toString(frame.getOperandStack().getSlots())
                     );
-
             instruction.execute(frame);
 
         }

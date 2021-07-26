@@ -25,6 +25,6 @@ public class Thread {
     }
 
     public Frame frame(int maxLocals, int maxStack) {
-        return new Frame(this, maxStack, maxStack);
+        return new Frame(this, maxLocals, maxStack);
     }
 }
