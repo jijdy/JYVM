@@ -1,31 +1,30 @@
-package com.jyvm.runtimeDate;
+package com.jyvm.runtimeDate.heap.method;
 
-/*
-* 局部变量信息，按索引访问，以槽数组的形式存储数据
-* 基本类型都依靠int数据进行存储，引用类型依靠Object来进行引用
-* */
-public class LocalVars {
-    Slot[] localVars;
+import com.jyvm.runtimeDate.Slot;
 
-    public LocalVars(int maxLocals) {
-        if(maxLocals > 0) {
-            this.localVars = new Slot[maxLocals];
-        }
-        for(int i = 0; i < maxLocals; i ++) {
-            localVars[i] = new Slot();
+public class Slots {
+
+    Slot[] slots;
+
+    public Slots(int size) {
+        if (size > 0) {
+            slots = new Slot[size];
+            for (int i = 0; i < size; i ++ ) {
+                slots[i] = new Slot();
+            }
         }
     }
-
+    
     public Slot[] getLocalVars() {
-        return this.localVars;
+        return this.slots;
     }
 
     public void setInt( int val, int index) {
-        this.localVars[index].num = val;
+        this.slots[index].num = val;
     }
 
     public int getInt(int index) {
-        return this.localVars[index].num;
+        return this.slots[index].num;
     }
 
     public void setFloat(float val, int index) {
@@ -57,10 +56,10 @@ public class LocalVars {
     }
 
     public void setRef(Object o, int index) {
-        localVars[index].ref = o;
+        slots[index].ref = o;
     }
 
-    public Object getRef(int index) {
-        return localVars[index].ref;
+    public java.lang.Object getRef(int index) {
+        return slots[index].ref;
     }
 }

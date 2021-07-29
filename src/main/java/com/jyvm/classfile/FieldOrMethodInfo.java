@@ -2,11 +2,13 @@ package com.jyvm.classfile;
 
 import com.jyvm.classfile.attribute.AttributeInfo;
 import com.jyvm.classfile.attribute.Implements.CodeAttribute;
+import com.jyvm.classfile.attribute.Implements.ConstantValueAttribute;
 
 /*
 * 字段或方法表
 * */
 public class FieldOrMethodInfo {
+
     private final int accessFlag;
     private final int nameIndex;
     private final int descIndex;
@@ -43,6 +45,15 @@ public class FieldOrMethodInfo {
         for (AttributeInfo attribute : this.attributes) {
             if (attribute instanceof CodeAttribute) {
                 return (CodeAttribute) attribute;
+            }
+        }
+        return null;
+    }
+
+    public ConstantValueAttribute constantValueAttribute() {
+        for (AttributeInfo info : this.attributes) {
+            if (info instanceof ConstantValueAttribute) {
+                return (ConstantValueAttribute) info;
             }
         }
         return null;

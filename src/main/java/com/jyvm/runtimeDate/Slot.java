@@ -5,8 +5,8 @@ package com.jyvm.runtimeDate;
 * */
 public class Slot {
 
-    int num;
-    Object ref;
+    public int num;
+    public Object ref;
 
     @Override
     public String toString() {

@@ -7,6 +7,7 @@ import com.jyvm.instructions.base.BytecodeReader;
 import com.jyvm.instructions.base.Instruction;
 import com.jyvm.runtimeDate.Frame;
 import com.jyvm.runtimeDate.Thread;
+import com.jyvm.runtimeDate.heap.method.Method;
 
 import java.util.Arrays;
 
@@ -14,22 +15,22 @@ public class Interpretor {
 
     CodeAttribute codeAttribute;
 
-    public Interpretor(FieldOrMethodInfo info) {
-        this.codeAttribute = info.getCodeAttribute();
-        int maxLocals = codeAttribute.getMaxLocals();
-        int maxStack = codeAttribute.getMaxStack();
-        byte[] codeByte = codeAttribute.getBytes();
+    public Interpretor(Method method) {
+//        this.codeAttribute = info.getCodeAttribute();
+//        int maxLocals = codeAttribute.getMaxLocals();
+//        int maxStack = codeAttribute.getMaxStack();
+//        byte[] codeByte = codeAttribute.getBytes();
         Thread thread = new Thread();
-        Frame frame = thread.frame(maxLocals, maxStack);
+        Frame frame = thread.frame(method);
         thread.pushStack(frame);  //将栈帧推入虚拟机栈中
-        loop(thread,codeByte);
+        loop(thread,method.code());
     }
 
     void loop(Thread thread, byte[] codeByte) {
         Frame frame = thread.popStack();  //拿到栈顶元素
         BytecodeReader reader = new BytecodeReader();
 
-        while (true) {
+        while (true) { //通过读取nextPC的值给到pc值指向读取的值的位置，一点点的增加，pc值会请，nextPC不会，拿取并写入
             int pc = frame.nextPC();
             thread.setPC(pc);
 

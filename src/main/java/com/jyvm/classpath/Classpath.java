@@ -41,12 +41,14 @@ public class Classpath {
         classpath = classpath + ".class";
 
         try {
-            if(bootClasspath.readClass(classpath) != null) return bootClasspath.readClass(classpath);
+            if(bootClasspath.readClass(classpath) != null)
+                return bootClasspath.readClass(classpath);
         } catch (IOException e) {
             //
         }
         try {
-            if(extensionClasspath.readClass(classpath) != null) return extensionClasspath.readClass(classpath);
+            if(extensionClasspath.readClass(classpath) != null)
+                return extensionClasspath.readClass(classpath);
         } catch (IOException e) {
             //
         }

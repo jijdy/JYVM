@@ -6,6 +6,9 @@ import com.jyvm.interpretor.Interpretor;
 import com.jyvm.runtimeDate.Frame;
 import com.jyvm.runtimeDate.LocalVars;
 import com.jyvm.runtimeDate.OperandStack;
+import com.jyvm.runtimeDate.heap.ClassLoader;
+import com.jyvm.runtimeDate.heap.method.Class;
+import com.jyvm.runtimeDate.heap.method.Method;
 
 import java.io.IOException;
 import java.lang.instrument.ClassDefinition;
@@ -30,19 +33,34 @@ public class Main {
     }
 
     private static void startVM() {
-//        Frame frame = new Frame(100,100);
-//        test_localVars(frame.getLocalVars());
-//        test_operandStack(frame.getOperandStack());
         Classpath cp = new Classpath(CmdParse.Xjre,CmdParse.classpath);
-        System.out.println(CmdParse.classpath + "  " + cp);
-        ClassFile cf = Main.readClass(CmdParse.classpath, cp);
-        FieldOrMethodInfo main = getMainMethod(cf);
-        if (main == null) {
+        ClassLoader classLoader = new ClassLoader(cp);
+        String mainClass = CmdParse.appArgs.get(0).replace(".","/");
+        Class mainClazz = classLoader.loadClass(mainClass);
+        Method mainMethod = mainClazz.getMainMethod();
+//        ClassFile cf = Main.readClass(CmdParse.classpath, cp);
+
+        if (mainMethod == null) {
             System.out.println("main方法为空！");
             return;
         }
-        new Interpretor(main);
+        new Interpretor(mainMethod);
     }
+
+//    private static void startVM2() {
+////        Frame frame = new Frame(100,100);
+////        test_localVars(frame.getLocalVars());
+////        test_operandStack(frame.getOperandStack());
+//        Classpath cp = new Classpath(CmdParse.Xjre,CmdParse.classpath);
+//        System.out.println(CmdParse.classpath + "  " + cp);
+//        ClassFile cf = Main.readClass(CmdParse.classpath, cp);
+//        FieldOrMethodInfo main = getMainMethod(cf);
+//        if (main == null) {
+//            System.out.println("main方法为空！");
+//            return;
+//        }
+//        new Interpretor(main);
+//    }
 
     public static ClassFile readClass(String classPath, Classpath cp) {
         try {

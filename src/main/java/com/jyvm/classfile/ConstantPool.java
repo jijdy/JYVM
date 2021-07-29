@@ -44,5 +44,7 @@ public class ConstantPool {
         return size;
     }
 
-
+    public ConstantInfo[] getConstantInfos() {
+        return this.constantInfos;
+    }
 }

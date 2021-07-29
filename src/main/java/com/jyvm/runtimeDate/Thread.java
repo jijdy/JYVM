@@ -1,5 +1,7 @@
 package com.jyvm.runtimeDate;
 
+import com.jyvm.runtimeDate.heap.method.Method;
+
 public class Thread {
     int PC;
     Stack stack;
@@ -24,7 +26,7 @@ public class Thread {
         this.stack.push(frame);
     }
 
-    public Frame frame(int maxLocals, int maxStack) {
-        return new Frame(this, maxLocals, maxStack);
+    public Frame frame(Method method) {
+        return new Frame(this, method);
     }
 }
