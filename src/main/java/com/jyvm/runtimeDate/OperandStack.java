@@ -61,11 +61,9 @@ public class OperandStack {
     }
 
     public Object popRef() {
-        try {
-            return this.slots[--size].ref;
-        } finally {
-            this.slots[size].ref = null;
-        }
+        Object c = this.slots[--size].ref;
+        this.slots[size].ref = null;
+        return c;
     }
 
     public void pushSlot(Slot slot) {

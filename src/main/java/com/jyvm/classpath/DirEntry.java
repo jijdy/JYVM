@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 
 public class DirEntry implements Entry{
 
-    private final Path absolutePath ;
+    private Path absolutePath ;
 
     DirEntry(String className) {
         this.absolutePath = Paths.get(className).toAbsolutePath();
@@ -16,9 +16,8 @@ public class DirEntry implements Entry{
     @Override
     public byte[] readClass(String className) throws IOException {
         //通过绝对路径加class文件的名称拿到文件位置并进行读取
-        Path p = Paths.get(className).toAbsolutePath();
-
-        return Files.readAllBytes(p);
+        absolutePath = absolutePath.subpath(0, absolutePath.getNameCount());
+        return Files.readAllBytes(absolutePath.resolve(className));
     }
 
     @Override

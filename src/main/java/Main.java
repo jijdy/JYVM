@@ -35,11 +35,9 @@ public class Main {
     private static void startVM() {
         Classpath cp = new Classpath(CmdParse.Xjre,CmdParse.classpath);
         ClassLoader classLoader = new ClassLoader(cp);
-        String mainClass = CmdParse.appArgs.get(0).replace(".","/");
-        Class mainClazz = classLoader.loadClass(mainClass);
+//        String mainClass = CmdParse.appArgs.get(0).replace(".","/");
+        Class mainClazz = classLoader.loadClass(CmdParse.classpath);
         Method mainMethod = mainClazz.getMainMethod();
-//        ClassFile cf = Main.readClass(CmdParse.classpath, cp);
-
         if (mainMethod == null) {
             System.out.println("main方法为空！");
             return;
@@ -82,6 +80,7 @@ public class Main {
         }
         return null;
     }
+
     private static void test_localVars(LocalVars vars){
         vars.setInt(0,100);
         vars.setInt(1,-100);
@@ -96,6 +95,7 @@ public class Main {
         System.out.println(ops.popRef());
         System.out.println(ops.popInt());
     }
+
     private static void startVM1() {
         System.out.println("虚拟机运行开始----");
         Classpath cp = new Classpath(CmdParse.Xjre,CmdParse.classpath);

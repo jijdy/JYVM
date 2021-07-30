@@ -15,14 +15,22 @@ public class MethodRef extends SymRef{
         this.constantPool = runtimePool;
     }
 
-    public Method resolveMethod() {
+    public Method getMethod() {
         if (null == method) {
-            this.resovleMethodRef();
+            this.setMethodRef();
         }
         return this.method;
     }
 
-    public void resovleMethodRef() {
+    public void setMethodRef() {
 
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDesc() {
+        return desc;
     }
 }

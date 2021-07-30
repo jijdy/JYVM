@@ -12,12 +12,9 @@ public class JarEntry implements Entry{
     }
 
     @Override
-    public byte[] readClass(String className) {
-        try {
-            FileSystem fs = FileSystems.newFileSystem(absPath,null);
+    public byte[] readClass(String className) throws IOException {
+        try (FileSystem fs = FileSystems.newFileSystem(absPath,null);) {
             return Files.readAllBytes(fs.getPath(className));
-        } catch (IOException e) {
-            return null;
         }
     }
 }

@@ -17,8 +17,12 @@ public class Dup extends NoOperandsInstruction {
 
     @Override
     public void execute(Frame frame) {
-        Slot slot = frame.getOperandStack().popSlot();
+
+        Slot slot1 = frame.getOperandStack().popSlot();
+        Slot slot = new Slot();
+        slot.num = slot1.num;
+        slot.ref = slot1.ref;
         frame.getOperandStack().pushSlot(slot);
-        frame.getOperandStack().pushSlot(slot);
+        frame.getOperandStack().pushSlot(slot1);
     }
 }

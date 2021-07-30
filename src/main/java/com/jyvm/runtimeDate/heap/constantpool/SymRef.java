@@ -1,6 +1,5 @@
 package com.jyvm.runtimeDate.heap.constantpool;
 
-import com.jyvm.classfile.ConstantPool;
 import com.jyvm.runtimeDate.heap.method.Class;
 
 public class SymRef {

@@ -104,6 +104,7 @@ public class ClassFile {
     }
 
     public String fatherName() {
+        if (this.fatherIndex <= 0) return "";
         return constantPool.getClass(fatherIndex);
     }
 

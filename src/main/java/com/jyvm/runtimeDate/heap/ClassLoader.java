@@ -30,12 +30,13 @@ public class ClassLoader {
 
     public Class loadClass(String className) {
         Class clazz = classMap.get(className);
-        if (null == clazz) {
-            try {
-                return this.loadNonClass(className);
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+        if (null != clazz) {
+            return clazz;
+        }
+        try {
+            return this.loadNonClass(className);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -151,7 +152,7 @@ public class ClassLoader {
                     java.lang.Object val = pool.getConstant(cpIdx);
                     staticVars.setInt((Integer) val, slotId );
                 case "J":
-                    staticVars.setLong((Long) pool.getConstant(cpIdx),slotId);
+                    staticVars.setLong((Long)pool.getConstant(cpIdx),slotId);
                 case "F":
                     staticVars.setFloat((Float) pool.getConstant(cpIdx), slotId);
                 case "D":

@@ -15,6 +15,7 @@ public class FieldRef extends SymRef{
     Field field;
 
     public FieldRef(RuntimePool runtimePool, ConstantFieldRef fieldRef) {
+        this.className = fieldRef.classValue();
         this.name = fieldRef.getNameAndDesc().get("name");
         this.desc = fieldRef.getNameAndDesc().get("desc");
         this.constantPool = runtimePool;
@@ -38,7 +39,7 @@ public class FieldRef extends SymRef{
                 e.printStackTrace();
             }
         }
-        if (this.field.isAccessibleTo(c)) {
+        if (!this.field.isAccessibleTo(c)) {
             try {
                 throw new IllegalAccessException("无访问权限！");
             } catch (IllegalAccessException e) {

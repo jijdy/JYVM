@@ -14,7 +14,7 @@ public class ClassMember {
     public void copyInfo(FieldOrMethodInfo info) {
         this.accessFlags = info.getAccessFlag();
         this.name = info.getName();
-        this.desc = info.getName();
+        this.desc = info.getDesc();
     }
 
     public boolean isPublic() {

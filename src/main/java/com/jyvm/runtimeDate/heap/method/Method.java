@@ -22,7 +22,7 @@ public class Method extends ClassMember{
 
     byte[] code;
 
-    public Method[] newMethod(Class clazz, FieldOrMethodInfo[] infos) {
+    public static Method[] newMethod(Class clazz, FieldOrMethodInfo[] infos) {
         Method[] methods = new Method[infos.length];
         for (int i = 0; i < infos.length; i ++) {
             methods[i] = new Method();

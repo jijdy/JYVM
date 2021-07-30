@@ -16,7 +16,8 @@ public interface Entry {
         if (path.contains(File.pathSeparator)) {
             return new CompositeEntry(path);
         }
-        if (path.endsWith(".jar") || path.endsWith(".zip")) {
+        if (path.endsWith(".jar") || path.endsWith(".zip")
+                || path.endsWith(".JAR") || path.endsWith(".ZIP")) {
             return new JarEntry(path);
         }
         if (path.endsWith("*")) {

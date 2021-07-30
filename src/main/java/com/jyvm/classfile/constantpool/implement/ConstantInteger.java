@@ -13,7 +13,7 @@ public class ConstantInteger implements ConstantInfo {
 
     @Override
     public void readInfo(ClassReader reader) {
-        value = reader.readNextU2Int();
+        value = (int) reader.readNextU4Long();
     }
 
     @Override

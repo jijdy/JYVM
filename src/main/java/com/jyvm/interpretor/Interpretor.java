@@ -47,14 +47,13 @@ public class Interpretor {
             //进行操作
             instruction.fetchOperands(reader);
             frame.setNextPC(reader.pc());
+            instruction.execute(frame);
 
             System.out.println("指令为：" + byteToHexString(new byte[]{option}) + "------>" +
                     instruction.getClass().getSimpleName() + "-----局部变量表为---->" +
                     Arrays.toString(frame.getLocalVars().getLocalVars()) + "----操作数栈----->"+
                     Arrays.toString(frame.getOperandStack().getSlots())
                     );
-            instruction.execute(frame);
-
         }
     }
 

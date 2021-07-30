@@ -19,7 +19,7 @@ public class RuntimePool {
         this.constants = new Object[CPCount];
 
         ConstantInfo[] constantInfos = constantPool.getConstantInfos();
-        for (int i = 0; i < CPCount; i ++) {
+        for (int i = 1; i < CPCount; i ++) {
             ConstantInfo constantInfo = constantInfos[i];
             switch (constantInfo.tag()) {
                 case ConstantInfo.CONSTANT_INTEGER:

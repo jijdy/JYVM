@@ -9,8 +9,7 @@ import com.jyvm.instructions.comparison.if_acmp.If_acmpne;
 import com.jyvm.instructions.comparison.if_icmp.*;
 import com.jyvm.instructions.comparison.ifcond.*;
 import com.jyvm.instructions.comparison.lcmp.Lcmp;
-import com.jyvm.instructions.constants.BIpush;
-import com.jyvm.instructions.constants.SIpush;
+import com.jyvm.instructions.constants.*;
 import com.jyvm.instructions.constants.consts.*;
 import com.jyvm.instructions.control.Goto;
 import com.jyvm.instructions.control.LookUpSwitch;
@@ -69,6 +68,7 @@ import com.jyvm.instructions.math.sub.Dsub;
 import com.jyvm.instructions.math.sub.Fsub;
 import com.jyvm.instructions.math.sub.Isub;
 import com.jyvm.instructions.math.sub.Lsub;
+import com.jyvm.instructions.references.*;
 import com.jyvm.instructions.stack.Swap;
 import com.jyvm.instructions.stack.dup.*;
 import com.jyvm.instructions.stack.pop.Pop;
@@ -131,12 +131,12 @@ public interface Instruction {
                 return new BIpush();  // 将一个byte型数据转为int入栈
             case 0x11:
                 return new SIpush();   // 将一个short型数据转为int入栈
-//            case 0x12:
-//                return new Ldc();   //将int，float或String从常量池推到栈顶
-//            case 0x13:
-//                return new Ldc_w();  //同上，wide宽索引
-//            case 0x14:
-//                return new Ldc2_w();  // 将long或double从常量池推如栈顶
+            case 0x12:
+                return new Ldc();   //将int，float或String从运行时常量池推到栈顶
+            case 0x13:
+                return new Ldc_w();  //同上，wide宽索引
+            case 0x14:
+                return new Ldc_2w();  // 将long或double从常量池推如栈顶
             case 0x15:
                 return new Iload();  // 将指定的int型数据入栈
             case 0x16:
@@ -449,28 +449,28 @@ public interface Instruction {
             // 	return dreturn
             // case 0xb0:
             // 	return areturn
-            // case 0xb1:
-            // 	return _return
-            //	case 0xb2:
-            //		return &GET_STATIC{}
-            // case 0xb3:
-            // 	return &PUT_STATIC{}
-            // case 0xb4:
-            // 	return &GET_FIELD{}
-            // case 0xb5:
-            // 	return &PUT_FIELD{}
-            //	case 0xb6:
-            //		return &INVOKE_VIRTUAL{}
-            // case 0xb7:
-            // 	return &INVOKE_SPECIAL{}
+//             case (byte) 0xb1:
+//             	return new Return;
+            case (byte) 0xb2:
+                return new Get_static(); //获取指定类的静态属性，并将其写入栈顶
+             case (byte) 0xb3:
+             	return new Put_static(); //从栈顶弹出元素给某个列的静态匀速复制，若为final则特殊考虑
+             case (byte) 0xb4:
+             	return new Get_field(); //获取指定类的字段属性，并推入到栈顶
+             case (byte) 0xb5:
+             	return new Put_field(); //从栈顶弹出元素赋给某个类的属性值
+            case (byte) 0xb6:
+                return new Invoke_virtual(); //调用实例方法
+             case (byte) 0xb7:
+             	return new Invoke_special(); //调用父类构造方法等
             // case 0xb8:
             // 	return &INVOKE_STATIC{}
             // case 0xb9:
             // 	return &INVOKE_INTERFACE{}
             // case 0xba:
             // 	return &INVOKE_DYNAMIC{}
-            // case 0xbb:
-            // 	return &NEW{}
+             case (byte) 0xbb:
+             	return new New();  //将类Class对象引用直接推入到栈顶
             // case 0xbc:
             // 	return &NEW_ARRAY{}
             // case 0xbd:
@@ -481,8 +481,8 @@ public interface Instruction {
             // 	return athrow
             // case 0xc0:
             // 	return &CHECK_CAST{}
-            // case 0xc1:
-            // 	return &INSTANCE_OF{}
+             case (byte) 0xc1:
+             	return new Instance_of();
             // case 0xc2:
             // 	return monitorenter
             // case 0xc3:

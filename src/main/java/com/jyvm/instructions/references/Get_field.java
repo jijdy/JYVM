@@ -10,7 +10,7 @@ import com.jyvm.runtimeDate.heap.method.Object;
 import com.jyvm.runtimeDate.heap.method.Slots;
 
 /*
-* 将实例变量的值推入到操作数栈顶
+* 将实例变量的属性值推入到操作数栈顶
 * */
 public class Get_field extends Index16Instruction {
 

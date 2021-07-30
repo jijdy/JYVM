@@ -11,7 +11,7 @@ public class Field extends ClassMember {
     public int poolIndex;
     public int slotIndex;
 
-    public Field[] fields(Class clazz, FieldOrMethodInfo[] infos) {
+    public static Field[] fields(Class clazz, FieldOrMethodInfo[] infos) {
         Field[] fields = new Field[infos.length];
         for (int i = 0; i < infos.length; i ++) {
             fields[i] = new Field();

@@ -27,9 +27,9 @@ public class Class {
         this.name = classFile.className();
         this.fatherClassName = classFile.fatherName();
         this.interfaceNames = classFile.getInterfaceName();
-//        this.constantPool = RuntimeConstantPool();
-//        this.fields = new Field(this, classFile.fields());
-//        this.methods = new Method(this, classFile.methods());
+        this.runtimePool = new RuntimePool(this,classFile.constantPool());
+        this.fields = Field.fields(this, classFile.fields());
+        this.methods = Method.newMethod(this, classFile.methods());
     }
 
     public boolean isPublic() {

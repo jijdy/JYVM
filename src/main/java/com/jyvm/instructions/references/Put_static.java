@@ -12,7 +12,7 @@ import com.jyvm.runtimeDate.heap.method.Slots;
 
 /*
 * 给类的某个静态变量赋值，通过索引找到该字段，
-* 并从栈顶弹出需要赋给静态变量的值，在根据描述来进行入栈操作
+* 并从栈顶弹出需要赋给静态变量的值，在根据描述来对Class的静态值改变
 * */
 public class Put_static extends Index16Instruction {
 
