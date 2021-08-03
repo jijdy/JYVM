@@ -32,6 +32,7 @@ public class Frame {
     public OperandStack getOperandStack() {
         return operandStack;
     }
+
 //    public Frame(Thread thread, int maxLocals, int maxStack) {
 //        this.thread = thread;
 //        this.localVars = new LocalVars(maxLocals);

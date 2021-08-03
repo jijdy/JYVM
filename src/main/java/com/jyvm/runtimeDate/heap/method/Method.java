@@ -2,6 +2,10 @@ package com.jyvm.runtimeDate.heap.method;
 
 import com.jyvm.classfile.FieldOrMethodInfo;
 import com.jyvm.classfile.attribute.Implements.CodeAttribute;
+import com.jyvm.runtimeDate.heap.AccessFlag;
+import com.sun.org.apache.bcel.internal.classfile.AccessFlags;
+
+import java.util.List;
 
 /*
 * 和字段属性类型，将code属性字段中的信息存储到
@@ -9,8 +13,10 @@ import com.jyvm.classfile.attribute.Implements.CodeAttribute;
 * */
 public class Method extends ClassMember{
 
-    int maxStack;
-    int maxLocals;
+    public int maxStack;
+    public int maxLocals;
+    byte[] code;
+    public int argSlotCount;
 
     public int getMaxStack() {
         return maxStack;
@@ -20,7 +26,9 @@ public class Method extends ClassMember{
         return maxLocals;
     }
 
-    byte[] code;
+    public boolean isNative() {
+        return 0 != (this.accessFlags & AccessFlag.ACC_NATIVE);
+    }
 
     public static Method[] newMethod(Class clazz, FieldOrMethodInfo[] infos) {
         Method[] methods = new Method[infos.length];
@@ -29,6 +37,7 @@ public class Method extends ClassMember{
             methods[i].clazz = clazz;
             methods[i].copyInfo(infos[i]);
             methods[i].copyAttribute(infos[i]);
+            methods[i].calcArgSlotCount();
         }
         return methods;
     }
@@ -39,6 +48,20 @@ public class Method extends ClassMember{
             this.maxStack = codeAttr.getMaxStack();
             this.maxLocals = codeAttr.getMaxLocals();
             this.code = codeAttr.getBytes();
+        }
+    }
+
+    private void calcArgSlotCount() {
+        MethodDescriptor parsedDescriptor = MethodDescriptorParser.parseMethodDescriptorParser(this.desc);
+        List<String> parameterTypes = parsedDescriptor.parameterTypes;
+        for (String paramType : parameterTypes) {
+            this.argSlotCount++;
+            if ("J".equals(paramType) || "D".equals(paramType)) {
+                this.argSlotCount++;
+            }
+        }
+        if (!this.isStatic()) {
+            this.argSlotCount++;
         }
     }
 

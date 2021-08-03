@@ -1,6 +1,5 @@
 package com.jyvm.runtimeDate.heap.method;
 
-import com.jyvm.classfile.ClassFile;
 import com.jyvm.classfile.FieldOrMethodInfo;
 import com.jyvm.runtimeDate.heap.AccessFlag;
 
