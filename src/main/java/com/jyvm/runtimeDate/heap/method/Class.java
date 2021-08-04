@@ -21,6 +21,7 @@ public class Class {
     public int instanceSlotCount;
     public int staticSlotCount;
     public Slots staticVars;
+    public boolean initStarted;
 
     public Class(ClassFile classFile) {
         this.accessFlags = classFile.accessFlag();
@@ -110,6 +111,15 @@ public class Class {
         return false;
     }
 
+    public boolean initStarted() {
+        return this.initStarted;
+    }
+
+    public void startInit() {
+        this.initStarted = true;
+    }
+
+
     public String getPackageName() {
         int i = this.name.lastIndexOf("/");
         if (i > 0) {
@@ -128,6 +138,10 @@ public class Class {
                 return method;
         }
         return null;
+    }
+
+    public Method getClinitMethod() {
+        return this.getStaticMethod("<clinit>","()V");
     }
 
     public Object object() {

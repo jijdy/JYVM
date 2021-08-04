@@ -30,6 +30,15 @@ public class Method extends ClassMember{
         return 0 != (this.accessFlags & AccessFlag.ACC_NATIVE);
     }
 
+    public boolean isAbstract() {
+        return 0 != (this.accessFlags & AccessFlag.ACC_ABSTRACT);
+    }
+
+    public boolean isStrict() {
+        return 0 != (this.accessFlags & AccessFlag.ACC_STRICT);
+    }
+
+
     public static Method[] newMethod(Class clazz, FieldOrMethodInfo[] infos) {
         Method[] methods = new Method[infos.length];
         for (int i = 0; i < infos.length; i ++) {

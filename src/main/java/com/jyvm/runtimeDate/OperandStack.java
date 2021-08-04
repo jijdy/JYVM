@@ -1,6 +1,8 @@
 package com.jyvm.runtimeDate;
 
 
+import com.jyvm.runtimeDate.heap.method.Object;
+
 /*
   操作数栈存储,size用于存储栈顶元素位置，
 * */
@@ -61,7 +63,7 @@ public class OperandStack {
     }
 
     public Object popRef() {
-        Object c = this.slots[--size].ref;
+        Object c = (Object) this.slots[--size].ref;
         this.slots[size].ref = null;
         return c;
     }
@@ -72,5 +74,9 @@ public class OperandStack {
 
     public Slot popSlot() {
         return this.slots[--size];
+    }
+
+    public Object getRefFromTop(int n) {
+        return (Object) this.slots[this.size - 1 - n].ref;
     }
 }

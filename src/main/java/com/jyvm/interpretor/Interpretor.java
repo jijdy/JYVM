@@ -1,7 +1,5 @@
 package com.jyvm.interpretor;
 
-import com.alibaba.fastjson.JSON;
-import com.jyvm.classfile.FieldOrMethodInfo;
 import com.jyvm.classfile.attribute.Implements.CodeAttribute;
 import com.jyvm.instructions.base.BytecodeReader;
 import com.jyvm.instructions.base.Instruction;
@@ -11,9 +9,10 @@ import com.jyvm.runtimeDate.heap.method.Method;
 
 import java.util.Arrays;
 
+/*
+* 指令解释器，用于循环的对指令进行解析和运算
+* */
 public class Interpretor {
-
-    CodeAttribute codeAttribute;
 
     public Interpretor(Method method) {
 //        this.codeAttribute = info.getCodeAttribute();

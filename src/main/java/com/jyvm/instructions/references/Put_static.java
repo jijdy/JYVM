@@ -1,5 +1,6 @@
 package com.jyvm.instructions.references;
 
+import com.jyvm.instructions.base.ClassInitLogic;
 import com.jyvm.instructions.base.Index16Instruction;
 import com.jyvm.runtimeDate.Frame;
 import com.jyvm.runtimeDate.OperandStack;
@@ -23,6 +24,11 @@ public class Put_static extends Index16Instruction {
         FieldRef fieldRef = (FieldRef) pool.getConstant(this.index);
         Field field = fieldRef.getField();
         Class clazz = field.clazz;
+        if (!clazz.initStarted) {
+            frame.revertNextPC();
+            ClassInitLogic.initClass(frame.thread(), clazz);
+            return;
+        }
         String desc = field.desc();
         int slotId = field.slotIndex;
         Slots slots = clazz.staticVars;

@@ -26,7 +26,7 @@ public class MethodInvokeLogic {
             }
         }
 
-        //hack，本地方法调用留
+        //hack，本地方法调用时先跳过
         if (method.isNative()) {
             if ("registerNatives".equals(method.name())) {
                 thread.popStack();

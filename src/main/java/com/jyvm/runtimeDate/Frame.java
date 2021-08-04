@@ -50,4 +50,8 @@ public class Frame {
     public int nextPC() {
         return this.nextPC;
     }
+
+    public void revertNextPC() {
+        this.nextPC = this.thread.PC;
+    }
 }

@@ -17,6 +17,13 @@ public class MethodRef extends SymRef{
         this.constantPool = runtimePool;
     }
 
+    public Method getMethod() {
+        if (null == this.method) {
+            this.resolveMethodRef();
+        }
+        return this.method;
+    }
+
     //解析寻找class中的方法字段，非接口方法
     private void resolveMethodRef() {
         Class d = this.constantPool.getClazz();

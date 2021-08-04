@@ -1,5 +1,6 @@
 package com.jyvm.instructions.references;
 
+import com.jyvm.instructions.base.ClassInitLogic;
 import com.jyvm.instructions.base.Index16Instruction;
 import com.jyvm.runtimeDate.Frame;
 import com.jyvm.runtimeDate.OperandStack;
@@ -28,6 +29,11 @@ public class Get_static extends Index16Instruction {
             throw new IncompatibleClassChangeError();
         }
         Class clazz = field.clazz;
+        if (!clazz.initStarted) {
+            frame.revertNextPC();
+            ClassInitLogic.initClass(frame.thread(), clazz);
+            return;
+        }
         String desc = field.desc();
         int slotId = field.slotIndex;
         Slots slots = clazz.staticVars;
@@ -51,7 +57,7 @@ public class Get_static extends Index16Instruction {
                 break;
             case "L":
             case "[":
-                stack.pushRef(slots.getRef(slotId));
+                stack.pushRef((com.jyvm.runtimeDate.heap.method.Object) slots.getRef(slotId));
                 break;
             default:
                 break;

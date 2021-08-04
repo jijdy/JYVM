@@ -26,6 +26,10 @@ public class Thread {
         this.stack.push(frame);
     }
 
+    public Frame topFrame() {
+        return this.stack.top();
+    }
+
     public Frame frame(Method method) {
         return new Frame(this, method);
     }
