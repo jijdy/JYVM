@@ -33,7 +33,17 @@ public class Class {
         this.methods = Method.newMethod(this, classFile.methods());
     }
 
-    public boolean isPublic() {
+    //用于加载数组对象的构造函数
+    public Class(int accessFlags, String name, ClassLoader loader, boolean initStarted, Class superClass, Class[] interfaces) {
+        this.accessFlags = accessFlags;
+        this.name = name;
+        this.loader = loader;
+        this.initStarted = initStarted;
+        this.superClass = superClass;
+        this.interfaces = interfaces;
+    }
+
+        public boolean isPublic() {
         return  0 != (this.accessFlags & AccessFlag.ACC_PUBLIC);
     }
 
@@ -146,5 +156,75 @@ public class Class {
 
     public Object object() {
         return new Object(this);
+    }
+
+    public Field getField(String name, String descriptor, boolean isStatic) {
+        for (Class c = this; c != null; c = c.superClass) {
+            for (Field field : c.fields) {
+                if (field.isStatic() == isStatic &&
+                        field.name.equals(name) &&
+                        field.desc.equals(descriptor)) {
+                    return field;
+                }
+            }
+        }
+        return null;
+    }
+
+    public boolean isJlObject() {
+        return this.name.equals("java/lang/Object");
+    }
+
+    public boolean isJlCloneable() {
+        return this.name.equals("java/lang/Cloneable");
+    }
+
+    public boolean isJioSerializable() {
+        return this.name.endsWith("java/io/Serializable");
+    }
+
+    public Object newObject() {
+        return new Object(this);
+    }
+
+    public Class arrayClass() {
+        String arrayClassName = ClassNameHelper.getArrayClassName(this.name);
+        return this.loader.loadClass(arrayClassName);
+    }
+
+    public boolean isArray() {
+        return this.name.getBytes()[0] == '[';
+    }
+
+    //拿到数组类名，再进行类加载找到该类
+    public Class componentClass() {
+        String componentClassName = ClassNameHelper.getComponentClassName(this.name);
+        return this.loader.loadClass(componentClassName);
+    }
+
+    public Object newArray(int count) {
+        if (!this.isArray()) {
+            throw new RuntimeException("Not array class " + this.name);
+        }
+        switch (this.name) {
+            case "[Z":
+                return new Object(this, new byte[count]);
+            case "[B":
+                return new Object(this, new byte[count]);
+            case "[C":
+                return new Object(this, new char[count]);
+            case "[S":
+                return new Object(this, new short[count]);
+            case "[I":
+                return new Object(this, new int[count]);
+            case "[J":
+                return new Object(this, new long[count]);
+            case "[F":
+                return new Object(this, new float[count]);
+            case "[D":
+                return new Object(this, new double[count]);
+            default:
+                return new Object(this, new Object[count]);
+        }
     }
 }

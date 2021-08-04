@@ -14,6 +14,7 @@ import com.jyvm.instructions.constants.consts.*;
 import com.jyvm.instructions.control.Goto;
 import com.jyvm.instructions.control.LookUpSwitch;
 import com.jyvm.instructions.control.Tableswitch;
+import com.jyvm.instructions.control.returns.*;
 import com.jyvm.instructions.conversion.d2x.D2f;
 import com.jyvm.instructions.conversion.d2x.D2i;
 import com.jyvm.instructions.conversion.d2x.D2l;
@@ -439,18 +440,18 @@ public interface Instruction {
                 return new Tableswitch(); //switch-case，case连续的情况
             case (byte) 0xab:
                 return new LookUpSwitch();
-            // case 0xac:
-            // 	return ireturn
-            // case 0xad:
-            // 	return lreturn
-            // case 0xae:
-            // 	return freturn
-            // case 0xaf:
-            // 	return dreturn
-            // case 0xb0:
-            // 	return areturn
-//             case (byte) 0xb1:
-//             	return new Return;
+             case (byte) 0xac:
+             	return new Ireturn();  // 用于方法的返回调用
+             case (byte) 0xad:
+             	return new Lreturn();
+             case (byte) 0xae:
+             	return new Freturn();
+             case (byte) 0xaf:
+             	return new Dreturn();
+             case (byte) 0xb0:
+             	return new Areturn();
+             case (byte) 0xb1:
+             	return new Return();
             case (byte) 0xb2:
                 return new Get_static(); //获取指定类的静态属性，并将其写入栈顶
              case (byte) 0xb3:
@@ -463,10 +464,10 @@ public interface Instruction {
                 return new Invoke_virtual(); //调用实例方法
              case (byte) 0xb7:
              	return new Invoke_special(); //调用父类构造方法等
-            // case 0xb8:
-            // 	return &INVOKE_STATIC{}
-            // case 0xb9:
-            // 	return &INVOKE_INTERFACE{}
+             case (byte) 0xb8:
+             	return new Invoke_static();  //调用静态方法
+             case (byte) 0xb9:
+             	return new Invoke_interface(); //调用接口相关方法，用于加快效率
             // case 0xba:
             // 	return &INVOKE_DYNAMIC{}
              case (byte) 0xbb:

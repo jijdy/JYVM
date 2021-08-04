@@ -6,6 +6,7 @@ import com.jyvm.runtimeDate.heap.constantpool.RuntimePool;
 import com.jyvm.runtimeDate.heap.method.Class;
 import com.jyvm.runtimeDate.heap.method.Field;
 import com.jyvm.runtimeDate.heap.method.Slots;
+import com.sun.org.apache.bcel.internal.classfile.AccessFlags;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -33,6 +34,11 @@ public class ClassLoader {
         if (null != clazz) {
             return clazz;
         }
+        //若为数组则进行数组类加载和创建
+        if (className.getBytes()[0] == '[') {
+            return this.loadArrayClass(className);
+        }
+        //普通类创建
         try {
             return this.loadNonClass(className);
         } catch (IOException | ClassNotFoundException e) {
@@ -51,6 +57,32 @@ public class ClassLoader {
         return clazz;
     }
 
+
+    private Class loadArrayClass(String className) {
+        Class clazz = new Class(AccessFlag.ACC_PUBLIC,
+                className,
+                this,
+                true,
+                this.loadClass("java/lang/Object"),
+                new Class[]{this.loadClass("java/lang/Cloneable"), this.loadClass("java/io/Serializable")});
+        this.classMap.put(className, clazz);
+        return clazz;
+    }
+
+    public void link(Class clazz) {
+        verify(clazz);
+        prepare(clazz);
+    }
+
+    public void verify(Class clazz) {
+        //在代码执行前对类进行严格的验证操作
+    }
+
+    public void prepare(Class clazz) {
+        calcInstanceFieldSlotIds(clazz); //计算出实例字段的个数，属于实例的字段
+        calcStaticField(clazz); //计算静态字段的数量，专属于类对象的字段
+        allocAndInitStaticVars(clazz); //为类对象和字段分配空间，
+    }
 
     public Class defineClass(byte[] data) {
         Class clazz = parseClass(data);
@@ -80,21 +112,6 @@ public class ClassLoader {
         if (!clazz.name.equals("java/lang/Object")) {
             clazz.superClass = clazz.loader.loadClass(clazz.fatherClassName);
         }
-    }
-
-    public void link(Class clazz) {
-        verify(clazz);
-        prepare(clazz);
-    }
-
-    public void verify(Class clazz) {
-        //在代码执行前对类进行严格的验证操作
-    }
-
-    public void prepare(Class clazz) {
-        calcInstanceFieldSlotIds(clazz); //计算出实例字段的个数，属于实例的字段
-        calcStaticField(clazz); //计算静态字段的数量，专属于类对象的字段
-        allocAndInitStaticVars(clazz); //为类对象和字段分配空间，
     }
 
     public void calcInstanceFieldSlotIds(Class clazz) {
