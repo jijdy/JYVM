@@ -29,4 +29,13 @@ public class StringPool {
         Object charArr = jStr.getRefVar("value", "[C");
         return new String(charArr.chars());
     }
+
+    public static Object internString(Object jStr) {
+        String goStr = goString(jStr);
+        Object internedStr = internedStrs.get(goStr);
+        if (null != internedStr) return internedStr;
+
+        internedStrs.put(goStr, jStr);
+        return jStr;
+    }
 }

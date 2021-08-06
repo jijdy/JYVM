@@ -8,7 +8,7 @@ import com.jyvm.runtimeDate.heap.method.Object;
 /*
 * 将一个给定值赋值给到数组中的位置
 * */
-public class Casotre extends NoOperandsInstruction {
+public class Iastore extends NoOperandsInstruction {
 
     @Override
     public void execute(Frame frame) {
@@ -21,10 +21,10 @@ public class Casotre extends NoOperandsInstruction {
         if (null == arrRef) {
             throw new RuntimeException();
         }
-        char[] refs = arrRef.chars();
+        int[] refs = arrRef.ints();
         if (index < 0 || refs.length <= index) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        refs[index] = (char) ref;
+        refs[index] = ref;
     }
 }

@@ -8,7 +8,7 @@ import com.jyvm.runtimeDate.heap.method.Object;
 /*
 * 将一个给定值赋值给到数组中的位置
 * */
-public class Dasotre extends NoOperandsInstruction {
+public class Dastore extends NoOperandsInstruction {
 
     @Override
     public void execute(Frame frame) {

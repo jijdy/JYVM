@@ -37,6 +37,7 @@ import com.jyvm.instructions.loads.lloads.Lload_0;
 import com.jyvm.instructions.loads.lloads.Lload_1;
 import com.jyvm.instructions.loads.lloads.Lload_2;
 import com.jyvm.instructions.loads.lloads.Lload_3;
+import com.jyvm.instructions.loads.xloads.*;
 import com.jyvm.instructions.math.add.Dadd;
 import com.jyvm.instructions.math.add.Fadd;
 import com.jyvm.instructions.math.add.Iadd;
@@ -70,6 +71,7 @@ import com.jyvm.instructions.math.sub.Fsub;
 import com.jyvm.instructions.math.sub.Isub;
 import com.jyvm.instructions.math.sub.Lsub;
 import com.jyvm.instructions.references.*;
+import com.jyvm.instructions.reserved.Invoke_native;
 import com.jyvm.instructions.stack.Swap;
 import com.jyvm.instructions.stack.dup.*;
 import com.jyvm.instructions.stack.pop.Pop;
@@ -79,8 +81,9 @@ import com.jyvm.instructions.stores.dstore.*;
 import com.jyvm.instructions.stores.fstore.*;
 import com.jyvm.instructions.stores.istore.*;
 import com.jyvm.instructions.stores.lstore.*;
+import com.jyvm.instructions.stores.xastore.*;
+import com.jyvm.natice.NativeMethod;
 import com.jyvm.runtimeDate.Frame;
-import com.sun.org.apache.bcel.internal.generic.*;
 
 public interface Instruction {
 
@@ -188,22 +191,22 @@ public interface Instruction {
                 return new Aload_2();
             case 0x2d:
                 return new Aload_3();
-            // case 0x2e:
-            // 	return iaload
-            // case 0x2f:
-            // 	return laload
-            // case 0x30:
-            // 	return faload
-            // case 0x31:
-            // 	return daload
-            // case 0x32:
-            // 	return aaload
-            // case 0x33:
-            // 	return baload
-            // case 0x34:
-            // 	return caload
-            // case 0x35:
-            // 	return saload
+             case 0x2e:
+             	return new Iaload(); //将int型数组的指定索引加载到操作数栈栈顶
+             case 0x2f:
+             	return new Laload();
+             case 0x30:
+             	return new Faload();
+             case 0x31:
+             	return new Daload();
+             case 0x32:
+             	return new Aaload();
+             case 0x33:
+             	return new Baload(); //将byte或Boolean类型数组中指定索引元素加载到栈顶
+             case 0x34:
+             	return new Caload();
+             case 0x35:
+             	return new Saload();
             case 0x36:
                 return new Istore(); //将栈顶元素存储到局部变量表
             case 0x37:
@@ -254,22 +257,22 @@ public interface Instruction {
                 return new Astore_2();
             case 0x4e:
                 return new Astore_3();
-            // case 0x4f:
-            // 	return iastore
-            // case 0x50:
-            // 	return lastore
-            // case 0x51:
-            // 	return fastore
-            // case 0x52:
-            // 	return dastore
-            // case 0x53:
-            // 	return aastore
-            // case 0x54:
-            // 	return bastore
-            // case 0x55:
-            // 	return castore
-            // case 0x56:
-            // 	return sastore
+             case 0x4f:
+             	return new Iastore(); //将栈顶的int型元素存入到指定数组的指定索引中
+             case 0x50:
+             	return new Lastore();
+             case 0x51:
+             	return new Fastore();
+             case 0x52:
+             	return new Dastore();
+             case 0x53:
+             	return new Aastore();
+             case 0x54:
+             	return new Bastore();
+             case 0x55:
+             	return new Castore();
+             case 0x56:
+             	return new Sastore();
             case 0x57:
                 return new Pop(); //将栈顶元素弹出
             case 0x58:
@@ -433,9 +436,9 @@ public interface Instruction {
             case (byte) 0xa7:
                 return new Goto();
             // case 0xa8:
-            // 	return &JSR{}
+            // 	return &JSR{} //跳转至一个16位的offset位置，并将其下一条指令推入栈顶
             // case 0xa9:
-            // 	return &RET{}
+            // 	return &RET{} //返回至本地变量指定的index处(一般与jstr和jsr_w要求使用
             case (byte) 0xaa:
                 return new Tableswitch(); //switch-case，case连续的情况
             case (byte) 0xab:
@@ -469,29 +472,29 @@ public interface Instruction {
              case (byte) 0xb9:
              	return new Invoke_interface(); //调用接口相关方法，用于加快效率
             // case 0xba:
-            // 	return &INVOKE_DYNAMIC{}
+            // 	return &INVOKE_DYNAMIC{}  //调用动态方法
              case (byte) 0xbb:
              	return new New();  //将类Class对象引用直接推入到栈顶
-            // case 0xbc:
-            // 	return &NEW_ARRAY{}
-            // case 0xbd:
-            // 	return &ANEW_ARRAY{}
-            // case 0xbe:
-            // 	return arraylength
+             case (byte) 0xbc:
+             	return new New_array();//新建一个一维数组，8种基本类型
+             case (byte) 0xbd:
+             	return new Anew_array(); //新建一个引用类型的一维数组对象
+             case (byte) 0xbe:
+             	return new Array_length(); //获得数组的长度并压入栈顶
             // case 0xbf:
-            // 	return athrow
-            // case 0xc0:
-            // 	return &CHECK_CAST{}
+            // 	return athrow // 将栈顶的异常抛出
+             case (byte) 0xc0:
+             	return new Check_cast(); //验证类型转换，为通过则抛出异常
              case (byte) 0xc1:
              	return new Instance_of();
             // case 0xc2:
-            // 	return monitorenter
+            // 	return monitorenter //获得对象的锁，用于同步方法或快，
             // case 0xc3:
-            // 	return monitorexit
+            // 	return monitorexit //释放对象的锁
             case (byte) 0xc4:
                 return new Wide(); //对从局部变量中获取数据时，局部变量超过了256时的扩展
-            // case 0xc5:
-            // 	return &MULTI_ANEW_ARRAY{}
+             case (byte) 0xc5:
+             	return new Multi_Anew_array(); //用于创建一个多维数组的指令
             case (byte) 0xc6:
                 return new Ifnull(); //为null时进行跳转操作
             case (byte) 0xc7:
@@ -499,9 +502,10 @@ public interface Instruction {
             case (byte) 0xc8:
                 return new Goto_w();
             // case 0xc9:
-            // 	return &JSR_W{}
+            // 	return &JSR_W{} //跳转指令，并将下一条指令压入栈顶
             // case 0xca: breakpoint
-            // case 0xfe: impdep1
+             case (byte) 0xfe:
+                 return new Invoke_native(); //调用本地方法
             // case 0xff: impdep2
             default:
                 throw new RuntimeException("该指令尚未实现：" + option);

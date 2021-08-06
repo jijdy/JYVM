@@ -8,23 +8,23 @@ import com.jyvm.runtimeDate.heap.method.Object;
 /*
 * 将一个给定值赋值给到数组中的位置
 * */
-public class Lasotre extends NoOperandsInstruction {
+public class Castore extends NoOperandsInstruction {
 
     @Override
     public void execute(Frame frame) {
         OperandStack stack  = frame.getOperandStack();
         //赋值给数组的值
-        long ref = stack.popLong();
+        int ref = stack.popInt();
         //数组位置与数组引用
         int index = stack.popInt();
         Object arrRef = stack.popRef();
         if (null == arrRef) {
             throw new RuntimeException();
         }
-        long[] refs = arrRef.longs();
+        char[] refs = arrRef.chars();
         if (index < 0 || refs.length <= index) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        refs[index] = ref;
+        refs[index] = (char) ref;
     }
 }

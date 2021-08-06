@@ -76,6 +76,14 @@ public class OperandStack {
         return this.slots[--size];
     }
 
+    public void pushBoolean(boolean val) {
+        if (val) {
+            this.pushInt(1);
+        } else {
+            this.pushInt(0);
+        }
+    }
+
     public Object getRefFromTop(int n) {
         return (Object) this.slots[this.size - 1 - n].ref;
     }

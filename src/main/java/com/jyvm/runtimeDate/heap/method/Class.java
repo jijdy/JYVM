@@ -22,6 +22,7 @@ public class Class {
     public int staticSlotCount;
     public Slots staticVars;
     public boolean initStarted;
+    public Object jClass;
 
     public Class(ClassFile classFile) {
         this.accessFlags = classFile.accessFlag();
@@ -30,7 +31,7 @@ public class Class {
         this.interfaceNames = classFile.getInterfaceName();
         this.runtimePool = new RuntimePool(this,classFile.constantPool());
         this.fields = Field.fields(this, classFile.fields());
-        this.methods = Method.newMethod(this, classFile.methods());
+        this.methods = new Method().newMethods(this, classFile.methods());
     }
 
     //用于加载数组对象的构造函数
@@ -139,19 +140,23 @@ public class Class {
     }
 
     public Method getMainMethod() {
-        return this.getStaticMethod("main","([Ljava/lang/String;)V");
+        return this.getStaticMethod("main","([Ljava/lang/String;)V", true);
     }
 
-    public Method getStaticMethod(String name, String desc) {
-        for (Method method : this.methods) {
-            if (method.name.equals(name) && method.desc.equals(desc))
-                return method;
+    public Method getStaticMethod(String name, String desc, boolean isStatic) {
+        for (Class c = this; c != null; c = c.superClass) {
+            if (null == c.methods) continue;
+            for (Method method : c.methods) {
+                if (method.isStatic() == isStatic && method.name.equals(name) && method.desc.equals(desc)) {
+                    return method;
+                }
+            }
         }
         return null;
     }
 
     public Method getClinitMethod() {
-        return this.getStaticMethod("<clinit>","()V");
+        return this.getStaticMethod("<clinit>","()V",true);
     }
 
     public Object object() {
@@ -226,5 +231,23 @@ public class Class {
             default:
                 return new Object(this, new Object[count]);
         }
+    }
+    //本地方法在首位获取到类名
+    public String javaName() {
+        return this.name.charAt(0) + this.name.substring(1).replace("/", ".");
+
+    }
+
+    public boolean isPrimitive() {
+        return null != ClassNameHelper.primitiveTypes.get(this.name);
+    }
+
+    public Object getRefVar(String fieldName, String fieldDesc) {
+        Field field = this.getField(fieldName, fieldDesc, true);
+        return (Object) this.staticVars.getRef(field.slotIndex);
+    }
+
+    public Method getInstanceMethod(String name, String desc) {
+        return this.getStaticMethod(name, desc, false);
     }
 }
