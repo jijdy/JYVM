@@ -4,6 +4,7 @@ import com.jyvm.instructions.base.Index16Instruction;
 import com.jyvm.instructions.base.MethodInvokeLogic;
 import com.jyvm.runtimeDate.Frame;
 import com.jyvm.runtimeDate.OperandStack;
+import com.jyvm.runtimeDate.heap.StringPool;
 import com.jyvm.runtimeDate.heap.constantpool.MethodRef;
 import com.jyvm.runtimeDate.heap.constantpool.RuntimePool;
 import com.jyvm.runtimeDate.heap.method.Class;
@@ -73,6 +74,11 @@ public class Invoke_virtual extends Index16Instruction {
                 break;
             case "(D)V":
                 System.out.println(stack.popDouble());
+                break;
+            case "(Ljava/lang/String;)V":
+                Object jStr = stack.popRef();
+                String goStr = StringPool.goString(jStr);
+                System.out.println(goStr);
                 break;
             default:
                 System.out.println(descriptor);

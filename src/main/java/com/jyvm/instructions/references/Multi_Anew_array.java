@@ -12,6 +12,7 @@ import com.jyvm.runtimeDate.heap.method.Object;
 /*
 * 用于创建多维数组的字节码指令，
 * 创建完毕推入到操作数栈中
+* 创建方法和一维数据差不多，但是使用了多维数组将创建的数组中再次创建新的数组
 * */
 public class Multi_Anew_array implements Instruction {
 
@@ -51,6 +52,7 @@ public class Multi_Anew_array implements Instruction {
         return counts;
     }
 
+    //通过递归的形式将多维数组进行创建，
     private Object newMultiDimensionalArray(int[] counts, Class arrClass) {
         int count = counts[0];
         Object arr = arrClass.newArray(count);

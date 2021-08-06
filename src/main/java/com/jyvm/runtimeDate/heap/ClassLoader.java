@@ -1,18 +1,22 @@
 package com.jyvm.runtimeDate.heap;
 
 import com.jyvm.classfile.ClassFile;
+import com.jyvm.classfile.ConstantPool;
 import com.jyvm.classpath.Classpath;
 import com.jyvm.runtimeDate.heap.constantpool.RuntimePool;
 import com.jyvm.runtimeDate.heap.method.Class;
 import com.jyvm.runtimeDate.heap.method.Field;
+import com.jyvm.runtimeDate.heap.method.Object;
 import com.jyvm.runtimeDate.heap.method.Slots;
-import com.sun.org.apache.bcel.internal.classfile.AccessFlags;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 /*
+类加载器，用于加载相关类，是运行时类加载器，将类名和类实例以键值对存储
+若能够根据类名ClassName找到Class对象则返回，
+若未找到否则进行classpath下的文件的类加载
 class names:
     - primitive types: boolean, byte, int ...
     - primitive arrays: [Z, [B, [I ...
@@ -168,14 +172,21 @@ public class ClassLoader {
                 case "I":
                     java.lang.Object val = pool.getConstant(cpIdx);
                     staticVars.setInt((Integer) val, slotId );
+                    break;
                 case "J":
                     staticVars.setLong((Long)pool.getConstant(cpIdx),slotId);
+                    break;
                 case "F":
                     staticVars.setFloat((Float) pool.getConstant(cpIdx), slotId);
+                    break;
                 case "D":
                     staticVars.setDouble((Double) pool.getConstant(cpIdx), slotId);
+                    break;
                 case "Ljava/lang/String;":
-                    System.out.println("未完成！");
+                    String getStr = (String) pool.getConstant(slotId);
+                    Object reStr = StringPool.jString(clazz.loader, getStr);
+                    staticVars.setRef(reStr, slotId);
+                    break;
             }
         }
     }
