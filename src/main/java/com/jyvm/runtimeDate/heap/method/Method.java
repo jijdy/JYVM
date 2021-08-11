@@ -2,6 +2,7 @@ package com.jyvm.runtimeDate.heap.method;
 
 import com.jyvm.classfile.FieldOrMethodInfo;
 import com.jyvm.classfile.attribute.Implements.CodeAttribute;
+import com.jyvm.classfile.attribute.Implements.LineNumberTableAttribute;
 import com.jyvm.runtimeDate.heap.AccessFlag;
 import com.sun.org.apache.bcel.internal.classfile.AccessFlags;
 
@@ -16,6 +17,8 @@ public class Method extends ClassMember{
     public int maxStack;
     public int maxLocals;
     byte[] code;
+    private ExceptionTable exceptionTable;
+    private LineNumberTableAttribute lineNumberTable;
     public int argSlotCount;
 
     public int getMaxStack() {
@@ -94,6 +97,8 @@ public class Method extends ClassMember{
             this.maxStack = codeAttr.getMaxStack();
             this.maxLocals = codeAttr.getMaxLocals();
             this.code = codeAttr.getBytes();
+            this.lineNumberTable = codeAttr.lineNumberTableAttribute();
+            this.exceptionTable = new ExceptionTable(codeAttr.exceptionTable(), this.clazz.componentClass().runtimePool);
         }
     }
 
@@ -123,7 +128,21 @@ public class Method extends ClassMember{
         }
     }
 
+    public int findExceptionHandler(Class exClass, int pc) {
+        ExceptionTable.ExceptionHandler handler = this.exceptionTable.findExceptionHandler(exClass, pc);
+        if (handler != null) {
+            return handler.handlerPC;
+        }
+        return -1;
+    }
+
     public byte[] code() {
         return this.code;
+    }
+
+    public int getLineNumber(int pc) {
+        if (this.isNative()) return -2;
+        if (this.lineNumberTable == null) return -1;
+        return this.lineNumberTable.getLineNumber(pc);
     }
 }

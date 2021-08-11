@@ -1,5 +1,7 @@
 package com.jyvm.runtimeDate.heap.method;
 
+import com.jyvm.natice.java._Throwable;
+
 /*
 用于数据存储，同时也用于数组的创建和数据的读取等操作
 * */
@@ -116,5 +118,9 @@ public class Object {
 
     public java.lang.Object extra() {
         return this.extra;
+    }
+
+    public void setExtra(_Throwable[] sets) {
+        this.extra = sets;
     }
 }

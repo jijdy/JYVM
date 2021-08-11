@@ -1,6 +1,7 @@
 package com.jyvm.classfile;
 
 import com.jyvm.classfile.attribute.AttributeInfo;
+import com.jyvm.classfile.attribute.Implements.SourceFileAttribute;
 
 public class ClassFile {
 
@@ -94,6 +95,14 @@ public class ClassFile {
         return s;
     }
 
+    public SourceFileAttribute sourceFileAttribute() {
+        for (AttributeInfo info : this.attributeInfos) {
+            if (info instanceof SourceFileAttribute) {
+                return (SourceFileAttribute) info;
+            }
+        }
+        return null;
+    }
 
     public int accessFlag() {
         return accessFlag;

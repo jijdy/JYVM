@@ -41,4 +41,25 @@ public class Stack {
         }
         return top;
     }
+
+    //遍历的将栈中的栈帧进行返回
+    public Frame[] getFrames() {
+        Frame[] frames = new Frame[this.size];
+        int i = 0;
+        for (Frame frame = this.top; frame != null; frame = frame.lower) {
+            frames[i] = frame;
+        }
+        return frames;
+    }
+
+    public boolean isEmpty() {
+        return this.top == null;
+    }
+
+    //将栈中的所有栈帧都进行清理操作
+    public void clear() {
+        if (!this.isEmpty()) {
+            this.pop();
+        }
+    }
 }

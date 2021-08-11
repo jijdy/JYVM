@@ -9,36 +9,36 @@ import com.sun.org.apache.bcel.internal.classfile.LineNumber;
 * */
 public class LineNumberTableAttribute implements AttributeInfo {
 
-    private LineNumber[] lineNumbers;
+    private LineNumberTableEntry[] lineNumberTable;
 
     @Override
     public void readInfo(ClassReader reader) {
-        int length = reader.readNextU2Int();
-        lineNumbers = new LineNumber[length];
-        for (int i = 0; i < length; i ++) {
-            lineNumbers[i] = new LineNumber(reader);
+        int lineNumberTableLength = reader.readNextU2Int();
+        this.lineNumberTable = new LineNumberTableEntry[lineNumberTableLength];
+        for (int i = 0; i < lineNumberTableLength; i++) {
+            lineNumberTable[i] = new LineNumberTableEntry(reader.readNextU2Int(), reader.readNextU2Int());
         }
     }
 
-    public LineNumber[] getLineNumbers() {
-        return this.lineNumbers;
+    public int getLineNumber(int pc) {
+        for (int i = this.lineNumberTable.length - 1; i >= 0; i--) {
+            LineNumberTableEntry entry = this.lineNumberTable[i];
+            if (pc >= entry.startPC){
+                return entry.lineNumber;
+            }
+        }
+        return -1;
     }
 
-    static class LineNumber{
+    static class LineNumberTableEntry {
         private final int startPC;
-        private final int LineNumber;
+        private final int lineNumber;
 
-        LineNumber(ClassReader reader) {
-            startPC = reader.readNextU2Int();
-            LineNumber = reader.readNextU2Int();
+        LineNumberTableEntry(int startPC, int lineNumber) {
+            this.startPC = startPC;
+            this.lineNumber = lineNumber;
         }
 
-        public int getStartPC() {
-            return this.startPC;
-        }
-        public int getLineNumber() {
-            return this.LineNumber;
-        }
     }
 
 }

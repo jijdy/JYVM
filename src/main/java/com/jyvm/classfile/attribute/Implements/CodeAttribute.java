@@ -14,7 +14,7 @@ public class CodeAttribute implements AttributeInfo {
     private int maxStack;
     private int maxLocals;
     private byte[] bytes;
-    private ExceptionTable[] exceptionTables;
+    private ExceptionTableEntry[] exceptionTables;
     //属性数组
     private AttributeInfo[] attributeInfos;
 
@@ -24,7 +24,7 @@ public class CodeAttribute implements AttributeInfo {
         maxLocals = reader.readNextU2Int();
         int codeLength = (int) reader.readNextU4Long();
         bytes = reader.read(codeLength);
-        exceptionTables = ExceptionTable.readException(reader);
+        exceptionTables = ExceptionTableEntry.readExceptionTable(reader);
         attributeInfos = AttributeInfo.readAttributes(reader, constantPool);
     }
 
@@ -34,6 +34,20 @@ public class CodeAttribute implements AttributeInfo {
 
     public AttributeInfo[] getAttributeInfos() {
         return attributeInfos;
+    }
+
+    //查找行数据信息
+    public LineNumberTableAttribute lineNumberTableAttribute() {
+        for (AttributeInfo attrInfo : this.attributeInfos) {
+            if (attrInfo instanceof LineNumberTableAttribute) {
+                return (LineNumberTableAttribute) attrInfo;
+            }
+        }
+        return null;
+    }
+
+    public ExceptionTableEntry[] exceptionTable() {
+        return this.exceptionTables;
     }
 
     static class ExceptionTable {
@@ -90,7 +104,45 @@ public class CodeAttribute implements AttributeInfo {
         return bytes;
     }
 
-    public ExceptionTable[] getExceptionTables() {
-        return exceptionTables;
+
+    public static class ExceptionTableEntry {
+
+        private final int startPC;
+        private final int endPC;
+        private final int handlerPC;
+        private final int catchType;
+
+        ExceptionTableEntry(int startPC, int endPC, int handlerPC, int catchType) {
+            this.startPC = startPC;
+            this.endPC = endPC;
+            this.handlerPC = handlerPC;
+            this.catchType = catchType;
+        }
+
+        static ExceptionTableEntry[] readExceptionTable(ClassReader reader) {
+            int exceptionTableLength = reader.readNextU2Int();
+            ExceptionTableEntry[] exceptionTable = new ExceptionTableEntry[exceptionTableLength];
+            for (int i = 0; i < exceptionTableLength; i++) {
+                exceptionTable[i] = new ExceptionTableEntry(reader.readNextU2Int(), reader.readNextU2Int(), reader.readNextU2Int(), reader.readNextU2Int());
+            }
+            return exceptionTable;
+        }
+
+        public int startPC() {
+            return this.startPC;
+        }
+
+        public int endPC() {
+            return this.endPC;
+        }
+
+        public int handlerPC() {
+            return this.handlerPC;
+        }
+
+        public int catchType() {
+            return this.catchType;
+        }
+
     }
 }

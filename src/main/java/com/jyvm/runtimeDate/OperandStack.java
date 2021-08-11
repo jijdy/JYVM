@@ -19,6 +19,14 @@ public class OperandStack {
         }
     }
 
+    //清理操作数栈中的所用引用数据
+    public void clear() {
+        this.size = 0;
+        for (Slot slot : this.slots) {
+            slot.ref = null;
+        }
+    }
+
     public Slot[] getSlots() {
         return this.slots;
     }

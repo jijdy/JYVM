@@ -1,6 +1,7 @@
 package com.jyvm.runtimeDate.heap.method;
 
 import com.jyvm.classfile.ClassFile;
+import com.jyvm.classfile.attribute.Implements.SourceFileAttribute;
 import com.jyvm.runtimeDate.Slot;
 import com.jyvm.runtimeDate.heap.AccessFlag;
 import com.jyvm.runtimeDate.heap.ClassLoader;
@@ -16,6 +17,7 @@ public class Class {
     public Field[] fields;
     public Method[] methods;
     public ClassLoader loader;
+    public String sourceFile;
     public Class superClass;
     public Class[] interfaces;
     public int instanceSlotCount;
@@ -32,6 +34,14 @@ public class Class {
         this.runtimePool = new RuntimePool(this,classFile.constantPool());
         this.fields = Field.fields(this, classFile.fields());
         this.methods = new Method().newMethods(this, classFile.methods());
+        this.sourceFile = getSourceFile(classFile);
+    }
+
+    //寻找源文件的文件名称
+    public String getSourceFile(ClassFile classFile) {
+        SourceFileAttribute sourceFileAttribute = classFile.sourceFileAttribute();
+        if (null == sourceFileAttribute) return "Unknown";
+        return sourceFileAttribute.sourceName();
     }
 
     //用于加载数组对象的构造函数
@@ -249,5 +259,9 @@ public class Class {
 
     public Method getInstanceMethod(String name, String desc) {
         return this.getStaticMethod(name, desc, false);
+    }
+
+    public String sourceFile() {
+        return this.sourceFile;
     }
 }
